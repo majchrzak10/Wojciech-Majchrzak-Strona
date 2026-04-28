@@ -251,36 +251,45 @@
   /* ─── ABOUT ───────────────────────────────────── */
   #about {
     display: grid; grid-template-columns: 1fr 1fr;
-    min-height: 90vh;
+    min-height: 80vh;
   }
   .about-img {
     background: var(--graphite);
     position: relative; overflow: hidden;
-    min-height: 500px;
+    min-height: 480px;
   }
   .about-img img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center center;
+    object-position: center 35%;
     display: block;
+    filter: brightness(0.9) contrast(1.02);
   }
-  .about-img-overlay {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(transparent, rgba(15,15,19,.8));
-    height: 200px;
-  }
-  .about-gold-frame {
-    position: absolute; top: 2rem; left: 2rem; right: 2rem; bottom: 2rem;
-    border: 1px solid rgba(200,169,110,.25);
+  /* delikatny teal overlay — spaja z resztą strony */
+  .about-img::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      rgba(11,31,31,0.15) 0%,
+      transparent 40%,
+      rgba(11,31,31,0.5) 100%
+    );
     pointer-events: none;
   }
+  .about-gold-frame {
+    position: absolute; top: 1.5rem; left: 1.5rem; right: 1.5rem; bottom: 1.5rem;
+    border: 1px solid rgba(74,160,160,.3);
+    pointer-events: none; z-index: 2;
+  }
   .about-tag {
-    position: absolute; bottom: 3rem; left: 3rem;
-    font-size: .65rem; font-weight: 700; letter-spacing: .2em;
-    text-transform: uppercase; color: var(--gold);
-    background: rgba(15,15,19,.8);
-    padding: .6rem 1rem; border-left: 2px solid var(--gold);
+    position: absolute; bottom: 2rem; left: 2rem; z-index: 3;
+    font-size: .62rem; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--gold-lt);
+    background: rgba(11,31,31,.85);
+    padding: .55rem .9rem; border-left: 2px solid var(--gold);
+    backdrop-filter: blur(4px);
   }
 
   .about-text {
@@ -390,11 +399,11 @@
   /* ─── PROCESS ─────────────────────────────────── */
   #process {
     background: var(--cream);
-    padding: 8rem 5vw;
+    padding: 5rem 5vw;
   }
   .process-layout {
     display: grid; grid-template-columns: 1fr 1.6fr;
-    gap: 6rem; align-items: start;
+    gap: 3rem; align-items: start;
   }
   .process-sticky {
     position: sticky; top: 120px;
@@ -419,17 +428,17 @@
   .process-steps { display: flex; flex-direction: column; }
   .process-step {
     display: grid; grid-template-columns: auto 1fr;
-    gap: 0 2rem;
+    gap: 0 1.5rem;
     position: relative;
   }
   .step-left {
     display: flex; flex-direction: column; align-items: center;
   }
   .step-num {
-    width: 52px; height: 52px; border-radius: 50%;
+    width: 42px; height: 42px; border-radius: 50%;
     background: var(--black);
     display: flex; align-items: center; justify-content: center;
-    font-size: .8rem; font-weight: 800; color: var(--gold);
+    font-size: .75rem; font-weight: 800; color: var(--gold);
     flex-shrink: 0; position: relative; z-index: 1;
     border: 2px solid rgba(200,169,110,.2);
     transition: background .3s, border-color .3s;
@@ -441,12 +450,12 @@
     width: 1px; flex: 1;
     background: rgba(0,0,0,.1);
     margin: .5rem 0;
-    min-height: 3rem;
+    min-height: 1.2rem;
   }
   .process-step:last-child .step-line { display: none; }
   .step-body {
-    padding-bottom: 3rem;
-    padding-top: .6rem;
+    padding-bottom: 1.5rem;
+    padding-top: .4rem;
   }
   .step-title {
     font-size: 1.05rem; font-weight: 700;
@@ -578,93 +587,6 @@
     position: absolute; top: 1.5rem; right: 1.5rem;
     font-size: 2.5rem; line-height: 1; color: rgba(200,169,110,.15);
     font-family: var(--serif); pointer-events: none;
-  }
-
-  /* ─── BUILDING BREAK ─────────────────────────── */
-  #building-break { background: var(--black); overflow: hidden; }
-  .building-img-wrap {
-    position: relative;
-    height: 65vh; min-height: 380px; max-height: 600px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  /* Left: photo */
-  .building-photo-side {
-    position: relative; overflow: hidden;
-  }
-  .building-photo-side img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    display: block;
-    filter: grayscale(10%) contrast(1.02) brightness(0.85);
-    transition: transform 8s ease-out;
-  }
-  .building-img-wrap:hover .building-photo-side img { transform: scale(1.04); }
-  /* subtle teal tint on photo */
-  .building-photo-side::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(
-      to right,
-      transparent 60%,
-      rgba(11,31,31,0.7) 100%
-    );
-  }
-  /* Right: dark info panel */
-  .building-info-side {
-    background: var(--navy);
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 4rem 5vw;
-    position: relative;
-    border-left: 2px solid var(--gold);
-  }
-  .building-info-side::before {
-    content: '';
-    position: absolute; top: 2rem; right: 2rem; bottom: 2rem; left: -1px;
-    border: 1px solid rgba(46,125,125,.15);
-    pointer-events: none;
-  }
-  .building-eyebrow {
-    font-size: .7rem; font-weight: 700; letter-spacing: .3em;
-    text-transform: uppercase; color: var(--gold-lt);
-    margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: .8rem;
-  }
-  .building-eyebrow::before {
-    content: ''; display: inline-block;
-    width: 32px; height: 1px; background: var(--gold-lt);
-    flex-shrink: 0;
-  }
-  .building-title {
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
-    font-weight: 800; line-height: 1.1;
-    color: var(--white); letter-spacing: -.02em;
-    margin-bottom: 1.5rem;
-  }
-  .building-hours {
-    font-size: .85rem; font-weight: 300;
-    color: rgba(255,255,255,.5); letter-spacing: .08em;
-    margin-bottom: 2rem;
-  }
-  .building-cta {
-    display: inline-flex; align-items: center; gap: .6rem;
-    font-size: .75rem; font-weight: 700; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--gold-lt);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(74,160,160,.4);
-    padding-bottom: .25rem;
-    width: fit-content;
-    transition: color .2s, border-color .2s;
-  }
-  .building-cta:hover { color: var(--white); border-color: var(--white); }
-  @media (max-width: 768px) {
-    .building-img-wrap { grid-template-columns: 1fr; height: auto; max-height: none; }
-    .building-photo-side { height: 260px; }
-    .building-photo-side::after { display: none; }
-    .building-info-side { padding: 2.5rem 1.5rem; border-left: none; border-top: 2px solid var(--gold); }
-    .building-info-side::before { display: none; }
   }
 
   /* ─── BANKS ───────────────────────────────────── */
@@ -1354,21 +1276,6 @@
           <div class="author-date">2025</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- BUILDING PHOTO BREAK -->
-<section id="building-break">
-  <div class="building-img-wrap">
-    <div class="building-photo-side">
-      <img src="budynek.jpg" alt="Biuro eksperta kredytowego — Wągrowiec">
-    </div>
-    <div class="building-info-side">
-      <p class="building-eyebrow">Nasze biuro</p>
-      <h3 class="building-title">ul. Kościuszki&nbsp;28,<br>Wągrowiec</h3>
-      <p class="building-hours">Pon – Pt &nbsp;·&nbsp; 9:00 – 17:00</p>
-      <a href="#contact" class="building-cta">Umów spotkanie →</a>
     </div>
   </div>
 </section>
