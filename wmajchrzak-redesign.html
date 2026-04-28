@@ -45,15 +45,16 @@
     transition: all .3s;
   }
   .nav-logo {
-    font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+    font-size: .62rem; font-weight: 700; letter-spacing: .1em;
     text-transform: uppercase; color: var(--gold); text-decoration: none;
-    white-space: nowrap;
+    white-space: nowrap; flex-shrink: 0;
   }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links { display: flex; gap: 1rem; list-style: none; }
   .nav-links a {
-    font-size: .75rem; font-weight: 400; letter-spacing: .12em;
+    font-size: .72rem; font-weight: 400; letter-spacing: .06em;
     text-transform: uppercase; color: rgba(255,255,255,.6);
     text-decoration: none; transition: color .2s;
+    white-space: nowrap;
   }
   .nav-links a:hover { color: var(--gold); }
   .nav-cta {
@@ -129,9 +130,9 @@
   .hero-content {
     display: flex; flex-direction: column;
     justify-content: center;
-    padding: 120px 5vw 0;
+    padding: 120px 5vw 5rem;
     position: relative; z-index: 2;
-    max-width: 65%;
+    max-width: 60%;
   }
   .hero-eyebrow {
     font-size: .7rem; font-weight: 600; letter-spacing: .35em;
@@ -155,8 +156,8 @@
   }
   .hero-sub {
     margin-top: 2.5rem;
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 2rem;
+    display: flex; align-items: flex-start; flex-direction: column;
+    gap: 1.5rem;
   }
   .hero-name {
     font-size: clamp(1rem, 2.5vw, 1.4rem);
@@ -164,7 +165,7 @@
     letter-spacing: .04em;
   }
   .hero-name strong { color: var(--white); font-weight: 600; }
-  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: .5rem; }
   .btn-primary {
     background: var(--gold); color: var(--black);
     font-family: var(--font); font-size: .8rem; font-weight: 700;
@@ -418,7 +419,7 @@
   /* ─── SERVICES ────────────────────────────────── */
   #services {
     background: var(--black);
-    padding: 8rem 5vw;
+    padding: 5rem 5vw 3rem;
   }
   .section-header {
     display: flex; align-items: flex-end;
@@ -483,7 +484,7 @@
   /* ─── PROCESS ─────────────────────────────────── */
   #process {
     background: var(--black);
-    padding: 5rem 5vw;
+    padding: 3rem 5vw 5rem;
   }
   .process-header {
     text-align: center;
@@ -989,7 +990,7 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">Wojciech Majchrzak · Ekspert Kredytowy</a>
+  <a class="nav-logo" href="#">W. Majchrzak&nbsp;·&nbsp;Ekspert Kredytowy</a>
   <ul class="nav-links">
     <li><a href="#about">O mnie</a></li>
     <li><a href="#services">Usługi</a></li>
@@ -1006,7 +1007,7 @@
   <div class="hero-grid"></div>
   <!-- Zdjęcie po prawej -->
   <div class="hero-photo-panel">
-    <img src="wojciech.png" alt="Wojciech Majchrzak — Ekspert Kredytowy">
+    <img src="uploads/90_01008-Edit.jpg" alt="Wojciech Majchrzak — Ekspert Kredytowy" style="object-position: center top;">
   </div>
   <div class="hero-photo-border"></div>
   <div class="hero-content">
@@ -1105,19 +1106,6 @@
         Żadna lokalizacja nie jest przeszkodą do podjęcia współpracy.
       </div>
     </div>
-  </div>
-</section>
-
-<!-- NASZE BIURO -->
-<section id="biuro">
-  <div class="biuro-photo">
-    <img src="budynek.jpg" alt="Biuro Wojciecha Majchrzaka — ul. Kościuszki 28, Wągrowiec">
-  </div>
-  <div class="biuro-info reveal">
-    <p class="biuro-eyebrow">Nasze biuro</p>
-    <h3 class="biuro-title">ul. Kościuszki&nbsp;28,<br>Wągrowiec</h3>
-    <p class="biuro-hours">Pon – Pt &nbsp;·&nbsp; 9:00 – 17:00</p>
-    <a href="#contact" class="biuro-cta">Umów spotkanie →</a>
   </div>
 </section>
 
@@ -1432,6 +1420,19 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- BIURO -->
+<section id="biuro">
+  <div class="biuro-photo">
+    <img src="budynek.jpg" alt="Biuro Wojciecha Majchrzaka — ul. Kościuszki 28, Wągrowiec">
+  </div>
+  <div class="biuro-info reveal">
+    <p class="biuro-eyebrow">Moje biuro</p>
+    <h3 class="biuro-title">ul. Kościuszki&nbsp;28,<br>Wągrowiec</h3>
+    <p class="biuro-hours">Pon – Pt &nbsp;·&nbsp; 9:00 – 17:00</p>
+    <a href="#contact" class="biuro-cta">Umów spotkanie →</a>
   </div>
 </section>
 
