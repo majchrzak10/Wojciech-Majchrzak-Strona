@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wojciech Majchrzak — Ekspert Kredytowy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0B1F1F;
+    --navy:    #102E2E;
+    --graphite:#173D3D;
+    --gold:    #2E7D7D;
+    --gold-lt: #4AA0A0;
+    --cream:   #F0F6F6;
+    --cream2:  #E4EFEF;
+    --gray:    #7A9A9A;
+    --white:   #F5FBFB;
+    --font:    'Sora', sans-serif;
+    --serif:   'Playfair Display', serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--cream);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 72px;
+    background: rgba(15,15,19,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,169,110,.12);
+    transition: all .3s;
+  }
+  .nav-logo {
+    font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+    text-transform: uppercase; color: var(--gold); text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .75rem; font-weight: 400; letter-spacing: .12em;
+    text-transform: uppercase; color: rgba(255,255,255,.6);
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--black);
+    font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; text-decoration: none;
+    padding: .6rem 1.4rem; border-radius: 2px;
+    transition: background .2s, transform .2s;
+  }
+  .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+  /* ─── HERO ────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    background: var(--black);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-noise {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: .5;
+  }
+  /* Decorative grid lines */
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(46,125,125,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,125,125,.05) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  /* Photo panel - right side */
+  .hero-photo-panel {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 44%;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .hero-photo-panel img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: grayscale(10%) contrast(1.02) brightness(0.95);
+  }
+  /* Gradient fade from left — tylko wąski pasek żeby tekst był czytelny */
+  .hero-photo-panel::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--black) 0%, rgba(11,31,31,0.45) 30%, transparent 65%);
+    z-index: 2;
+  }
+  /* Teal color wash — bardzo delikatny */
+  .hero-photo-panel::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(11,31,31,0.15) 0%, transparent 50%, rgba(11,31,31,0.2) 100%);
+    z-index: 3;
+  }
+  /* Decorative teal border on the photo */
+  .hero-photo-border {
+    position: absolute;
+    top: 80px; right: 40px; bottom: 40px;
+    width: calc(44% - 80px);
+    border: 1px solid rgba(46,125,125,0.3);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 120px 5vw 0;
+    position: relative; z-index: 2;
+    max-width: 65%;
+  }
+  .hero-eyebrow {
+    font-size: .7rem; font-weight: 600; letter-spacing: .35em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--gold);
+  }
+  .hero-display {
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    font-weight: 800; line-height: .9;
+    color: var(--white);
+    letter-spacing: -.03em;
+  }
+  .hero-display em {
+    font-style: normal; color: transparent;
+    -webkit-text-stroke: 1px var(--gold);
+  }
+  .hero-sub {
+    margin-top: 2.5rem;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 2rem;
+  }
+  .hero-name {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 300; color: rgba(255,255,255,.55);
+    letter-spacing: .04em;
+  }
+  .hero-name strong { color: var(--white); font-weight: 600; }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    font-family: var(--font); font-size: .8rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    text-decoration: none; padding: 1rem 2rem;
+    border: none; cursor: pointer; border-radius: 2px;
+    transition: background .2s, transform .15s;
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+  .btn-ghost {
+    color: rgba(255,255,255,.7); font-size: .8rem; font-weight: 400;
+    letter-spacing: .05em; text-decoration: none;
+    display: inline-flex; align-items: center; gap: .5rem;
+    transition: color .2s;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost svg { width:16px; height:16px; }
+
+  /* Ticker */
+  .ticker-wrap {
+    overflow: hidden; border-top: 1px solid rgba(200,169,110,.2);
+    background: rgba(200,169,110,.06);
+    padding: 1rem 0;
+    position: relative; z-index: 2;
+  }
+  .ticker-track {
+    display: flex; gap: 0; white-space: nowrap;
+    animation: ticker 28s linear infinite;
+  }
+  .ticker-item {
+    font-size: .7rem; font-weight: 600; letter-spacing: .2em;
+    text-transform: uppercase; color: rgba(200,169,110,.7);
+    padding: 0 3rem;
+  }
+  .ticker-dot {
+    color: var(--gold); font-size: 1rem; vertical-align: middle;
+    padding: 0 1rem;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ─── STATS ───────────────────────────────────── */
+  #stats {
+    background: var(--navy);
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid rgba(200,169,110,.12);
+  }
+  .stat-item {
+    padding: 5rem 4vw;
+    border-right: 1px solid rgba(200,169,110,.1);
+    position: relative; overflow: hidden;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 800; line-height: 1;
+    color: var(--white);
+    display: flex; align-items: flex-start;
+  }
+  .stat-num sup {
+    font-size: 35%; font-weight: 300;
+    color: var(--gold); margin-top: .5em;
+  }
+  .stat-label {
+    font-size: .72rem; font-weight: 600; letter-spacing: .25em;
+    text-transform: uppercase; color: var(--gold);
+    margin-top: 1rem;
+  }
+  .stat-desc {
+    font-size: .85rem; font-weight: 300; color: var(--gray);
+    margin-top: .5rem; line-height: 1.6;
+  }
+  .stat-item::after {
+    content: attr(data-n);
+    position: absolute; right: -2rem; bottom: -2rem;
+    font-size: 10rem; font-weight: 800;
+    color: rgba(200,169,110,.04); pointer-events: none;
+    line-height: 1; white-space: nowrap;
+  }
+
+  /* ─── ABOUT ───────────────────────────────────── */
+  #about {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 90vh;
+  }
+  .about-img {
+    background: var(--graphite);
+    position: relative; overflow: hidden;
+    min-height: 500px;
+  }
+  .about-img img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+  }
+  .about-img-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(15,15,19,.8));
+    height: 200px;
+  }
+  .about-gold-frame {
+    position: absolute; top: 2rem; left: 2rem; right: 2rem; bottom: 2rem;
+    border: 1px solid rgba(200,169,110,.25);
+    pointer-events: none;
+  }
+  .about-tag {
+    position: absolute; bottom: 3rem; left: 3rem;
+    font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+    background: rgba(15,15,19,.8);
+    padding: .6rem 1rem; border-left: 2px solid var(--gold);
+  }
+
+  .about-text {
+    background: var(--cream);
+    padding: 8vw 6vw;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .section-eyebrow {
+    font-size: .7rem; font-weight: 600; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800; line-height: 1.1;
+    color: var(--black); margin-bottom: 2rem;
+    letter-spacing: -.02em;
+  }
+  .section-title em {
+    font-style: italic; font-family: var(--serif);
+    font-weight: 400; color: var(--gold);
+  }
+  .about-body {
+    font-size: 1rem; font-weight: 300; line-height: 1.85;
+    color: #444; max-width: 480px;
+  }
+  .about-body p + p { margin-top: 1.2rem; }
+  .about-area {
+    margin-top: 2.5rem; padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,.08);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .area-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--gold); display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .area-icon svg { width: 16px; height: 16px; color: var(--black); }
+  .area-text { font-size: .82rem; line-height: 1.6; color: var(--gray); }
+  .area-text strong { color: var(--black); display: block; font-size: .9rem; }
+
+  /* ─── SERVICES ────────────────────────────────── */
+  #services {
+    background: var(--black);
+    padding: 8rem 5vw;
+  }
+  .section-header {
+    display: flex; align-items: flex-end;
+    justify-content: space-between; margin-bottom: 4rem;
+    gap: 2rem;
+  }
+  .section-header .section-title { margin-bottom: 0; color: var(--white); }
+  .section-header .section-eyebrow { margin-bottom: 0; }
+  .section-header-left { display: flex; flex-direction: column; gap: .8rem; }
+  .section-desc {
+    font-size: .9rem; font-weight: 300; color: var(--gray);
+    max-width: 340px; line-height: 1.7;
+  }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: rgba(200,169,110,.1);
+  }
+  .service-card {
+    background: var(--graphite);
+    padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    transition: background .3s;
+    cursor: default;
+  }
+  .service-card:hover { background: #30303e; }
+  .service-card:hover .service-icon-wrap { background: var(--gold); }
+  .service-card:hover .service-icon-wrap svg { color: var(--black); }
+  .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+  .service-num {
+    font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+    color: var(--gold); opacity: .6; margin-bottom: 2rem;
+  }
+  .service-icon-wrap {
+    width: 48px; height: 48px; border-radius: 8px;
+    background: rgba(200,169,110,.1);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.8rem;
+    transition: background .3s;
+  }
+  .service-icon-wrap svg {
+    width: 22px; height: 22px; color: var(--gold);
+    transition: color .3s;
+  }
+  .service-name {
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--white); margin-bottom: .8rem;
+    line-height: 1.3;
+  }
+  .service-text {
+    font-size: .82rem; font-weight: 300; color: var(--gray);
+    line-height: 1.7;
+  }
+  .service-arrow {
+    position: absolute; bottom: 2.5rem; right: 2.5rem;
+    color: var(--gold); opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity .3s, transform .3s;
+    font-size: 1.2rem;
+  }
+
+  /* ─── PROCESS ─────────────────────────────────── */
+  #process {
+    background: var(--cream);
+    padding: 8rem 5vw;
+  }
+  .process-layout {
+    display: grid; grid-template-columns: 1fr 1.6fr;
+    gap: 6rem; align-items: start;
+  }
+  .process-sticky {
+    position: sticky; top: 120px;
+  }
+  .process-intro .section-title { color: var(--black); }
+  .process-intro p {
+    font-size: .9rem; font-weight: 300; color: var(--gray);
+    line-height: 1.8; margin-top: 1.5rem; max-width: 320px;
+  }
+  .process-cta {
+    margin-top: 3rem;
+    display: inline-flex; align-items: center; gap: .7rem;
+    font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--black);
+    text-decoration: none;
+    padding-bottom: .3rem;
+    border-bottom: 2px solid var(--gold);
+    transition: color .2s, gap .2s;
+  }
+  .process-cta:hover { color: var(--gold); gap: 1rem; }
+
+  .process-steps { display: flex; flex-direction: column; }
+  .process-step {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 0 2rem;
+    position: relative;
+  }
+  .step-left {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .step-num {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem; font-weight: 800; color: var(--gold);
+    flex-shrink: 0; position: relative; z-index: 1;
+    border: 2px solid rgba(200,169,110,.2);
+    transition: background .3s, border-color .3s;
+  }
+  .process-step:hover .step-num {
+    background: var(--gold); color: var(--black); border-color: var(--gold);
+  }
+  .step-line {
+    width: 1px; flex: 1;
+    background: rgba(0,0,0,.1);
+    margin: .5rem 0;
+    min-height: 3rem;
+  }
+  .process-step:last-child .step-line { display: none; }
+  .step-body {
+    padding-bottom: 3rem;
+    padding-top: .6rem;
+  }
+  .step-title {
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--black); margin-bottom: .7rem;
+  }
+  .step-text {
+    font-size: .85rem; font-weight: 300; color: var(--gray);
+    line-height: 1.8; max-width: 480px;
+  }
+
+  /* ─── WHY ME ──────────────────────────────────── */
+  #why {
+    background: var(--navy);
+    padding: 8rem 5vw;
+  }
+  #why .section-title { color: var(--white); }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; margin-top: 4rem;
+    background: rgba(200,169,110,.08);
+  }
+  .why-card {
+    background: var(--navy);
+    padding: 3rem 2.5rem;
+    border: none;
+    transition: background .3s;
+    position: relative;
+  }
+  .why-card:hover { background: #1e1e30; }
+  .why-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s;
+  }
+  .why-card:hover::before { transform: scaleX(1); }
+  .why-icon {
+    font-size: 1.8rem; margin-bottom: 1.5rem;
+    display: block;
+  }
+  .why-title {
+    font-size: 1rem; font-weight: 700;
+    color: var(--white); margin-bottom: .8rem;
+  }
+  .why-text {
+    font-size: .82rem; font-weight: 300; color: var(--gray);
+    line-height: 1.8;
+  }
+  .why-highlight {
+    display: inline-block; margin-top: 1rem;
+    font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--gold);
+  }
+
+  /* ─── REVIEWS ─────────────────────────────────── */
+  #reviews {
+    background: var(--cream2);
+    padding: 8rem 5vw;
+    overflow: hidden;
+  }
+  #reviews .section-title { color: var(--black); }
+  .reviews-score {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin: 3rem 0;
+    padding: 2rem 2.5rem;
+    background: var(--black); border-radius: 4px;
+    width: fit-content;
+  }
+  .score-num {
+    font-size: 3.5rem; font-weight: 800; color: var(--white); line-height: 1;
+  }
+  .score-right { display: flex; flex-direction: column; gap: .4rem; }
+  .score-stars { color: var(--gold); font-size: 1.1rem; letter-spacing: .1em; }
+  .score-label {
+    font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .score-count {
+    font-size: .75rem; color: var(--gray);
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .review-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 4px;
+    position: relative;
+    border: 1px solid rgba(0,0,0,.06);
+    transition: transform .25s, box-shadow .25s;
+  }
+  .review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.08);
+  }
+  .review-card:first-child {
+    grid-row: span 1;
+  }
+  .review-stars { color: var(--gold); font-size: .85rem; letter-spacing: .1em; }
+  .review-text {
+    font-size: .85rem; font-weight: 300; color: #555;
+    line-height: 1.8; margin: 1rem 0;
+    font-style: italic;
+  }
+  .review-text::before { content: '"'; font-size: 1.5em; color: var(--gold); line-height: 0; vertical-align: -.2em; }
+  .review-author {
+    display: flex; align-items: center; gap: .8rem;
+    padding-top: 1rem; border-top: 1px solid rgba(0,0,0,.06);
+  }
+  .author-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #1a5050);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: var(--black);
+    flex-shrink: 0;
+  }
+  .author-name {
+    font-size: .82rem; font-weight: 600; color: var(--black);
+  }
+  .author-date {
+    font-size: .72rem; color: var(--gray);
+  }
+  .review-quote {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-size: 2.5rem; line-height: 1; color: rgba(200,169,110,.15);
+    font-family: var(--serif); pointer-events: none;
+  }
+
+  /* ─── BUILDING BREAK ─────────────────────────── */
+  #building-break { background: var(--black); overflow: hidden; }
+  .building-img-wrap {
+    position: relative;
+    height: 65vh; min-height: 380px; max-height: 600px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  /* Left: photo */
+  .building-photo-side {
+    position: relative; overflow: hidden;
+  }
+  .building-photo-side img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    filter: grayscale(10%) contrast(1.02) brightness(0.85);
+    transition: transform 8s ease-out;
+  }
+  .building-img-wrap:hover .building-photo-side img { transform: scale(1.04); }
+  /* subtle teal tint on photo */
+  .building-photo-side::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      to right,
+      transparent 60%,
+      rgba(11,31,31,0.7) 100%
+    );
+  }
+  /* Right: dark info panel */
+  .building-info-side {
+    background: var(--navy);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 5vw;
+    position: relative;
+    border-left: 2px solid var(--gold);
+  }
+  .building-info-side::before {
+    content: '';
+    position: absolute; top: 2rem; right: 2rem; bottom: 2rem; left: -1px;
+    border: 1px solid rgba(46,125,125,.15);
+    pointer-events: none;
+  }
+  .building-eyebrow {
+    font-size: .7rem; font-weight: 700; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--gold-lt);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .building-eyebrow::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 1px; background: var(--gold-lt);
+    flex-shrink: 0;
+  }
+  .building-title {
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 800; line-height: 1.1;
+    color: var(--white); letter-spacing: -.02em;
+    margin-bottom: 1.5rem;
+  }
+  .building-hours {
+    font-size: .85rem; font-weight: 300;
+    color: rgba(255,255,255,.5); letter-spacing: .08em;
+    margin-bottom: 2rem;
+  }
+  .building-cta {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--gold-lt);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(74,160,160,.4);
+    padding-bottom: .25rem;
+    width: fit-content;
+    transition: color .2s, border-color .2s;
+  }
+  .building-cta:hover { color: var(--white); border-color: var(--white); }
+  @media (max-width: 768px) {
+    .building-img-wrap { grid-template-columns: 1fr; height: auto; max-height: none; }
+    .building-photo-side { height: 260px; }
+    .building-photo-side::after { display: none; }
+    .building-info-side { padding: 2.5rem 1.5rem; border-left: none; border-top: 2px solid var(--gold); }
+    .building-info-side::before { display: none; }
+  }
+
+  /* ─── BANKS ───────────────────────────────────── */
+  #banks {
+    background: var(--black);
+    padding: 5rem 0;
+    overflow: hidden;
+  }
+  .banks-label {
+    text-align: center; margin-bottom: 3rem;
+    font-size: .7rem; font-weight: 700; letter-spacing: .3em;
+    text-transform: uppercase; color: rgba(200,169,110,.5);
+  }
+  .banks-strip { display: flex; gap: 0; animation: strip 20s linear infinite; width: max-content; }
+  .bank-item {
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.2rem 3.5rem;
+    border-right: 1px solid rgba(200,169,110,.08);
+    color: rgba(255,255,255,.25);
+    font-size: .9rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; white-space: nowrap;
+    transition: color .3s;
+  }
+  .bank-item:hover { color: var(--gold); }
+  @keyframes strip {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ─── PRICE ───────────────────────────────────── */
+  #price {
+    background: var(--cream);
+    padding: 8rem 5vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .price-left { }
+  .price-eyebrow {
+    font-size: .7rem; font-weight: 600; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem;
+    display: block;
+  }
+  .price-heading {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800; line-height: 1.1;
+    color: var(--black); letter-spacing: -.03em;
+    margin-bottom: 1.5rem;
+  }
+  .price-right {
+    background: var(--black);
+    border-radius: 4px;
+    padding: 4rem;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .price-badge {
+    display: flex; align-items: baseline; gap: .8rem;
+    border-bottom: 1px solid rgba(200,169,110,.2);
+    padding-bottom: 1.5rem; width: 100%;
+  }
+  .price-zero {
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-weight: 800; color: var(--gold);
+    line-height: 1; letter-spacing: -.04em;
+  }
+  .price-currency {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300; color: rgba(255,255,255,.4);
+    letter-spacing: -.02em;
+  }
+  .price-label {
+    font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  @media (max-width: 768px) {
+    #price { grid-template-columns: 1fr; }
+  }
+  .price-sub {
+    font-size: .95rem; font-weight: 300; color: var(--gray);
+    line-height: 1.8; margin-top: 1rem;
+  }
+  .price-sub strong { color: var(--black); font-weight: 600; }
+
+  /* ─── COLLABORATION ───────────────────────────── */
+  #collab {
+    background: var(--graphite);
+    padding: 8rem 5vw;
+  }
+  .collab-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+  }
+  .collab-left .section-title { color: var(--white); }
+  .collab-left p {
+    font-size: .95rem; font-weight: 300; color: var(--gray);
+    line-height: 1.8; margin-top: 1.5rem; max-width: 440px;
+  }
+  .collab-left .btn-primary { margin-top: 2.5rem; }
+  .collab-cards {
+    display: flex; flex-direction: column; gap: 1px;
+  }
+  .collab-card {
+    background: rgba(255,255,255,.04);
+    padding: 1.8rem 2rem;
+    display: flex; align-items: center; gap: 1.5rem;
+    border-left: 2px solid transparent;
+    transition: border-color .3s, background .3s;
+  }
+  .collab-card:hover {
+    border-left-color: var(--gold);
+    background: rgba(255,255,255,.07);
+  }
+  .collab-card-icon {
+    font-size: 1.8rem; flex-shrink: 0;
+  }
+  .collab-card-title {
+    font-size: .85rem; font-weight: 700; color: var(--white);
+    margin-bottom: .3rem;
+  }
+  .collab-card-text {
+    font-size: .78rem; font-weight: 300; color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* ─── CONTACT ─────────────────────────────────── */
+  #contact {
+    background: var(--black);
+    padding: 8rem 5vw;
+  }
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 6rem; align-items: start;
+  }
+  .contact-info .section-title { color: var(--white); }
+  .contact-details {
+    margin-top: 3rem;
+    display: flex; flex-direction: column; gap: 1.8rem;
+  }
+  .contact-detail {
+    display: flex; gap: 1rem;
+  }
+  .detail-icon {
+    width: 44px; height: 44px; border-radius: 4px;
+    background: rgba(200,169,110,.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--gold); font-size: 1.1rem;
+  }
+  .detail-label {
+    font-size: .65rem; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gray); margin-bottom: .3rem;
+  }
+  .detail-value {
+    font-size: .95rem; font-weight: 600; color: var(--white);
+  }
+  .detail-value a { color: var(--white); text-decoration: none; transition: color .2s; }
+  .detail-value a:hover { color: var(--gold); }
+
+  .contact-form-wrap {
+    background: var(--graphite);
+    padding: 3rem;
+    border-radius: 4px;
+    border: 1px solid rgba(200,169,110,.1);
+  }
+  .form-title {
+    font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: 2rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+  .form-group.full { grid-column: span 2; }
+  .form-label {
+    font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+    text-transform: uppercase; color: var(--gray);
+  }
+  .form-input {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 2px; padding: .85rem 1rem;
+    font-family: var(--font); font-size: .88rem;
+    color: var(--white); outline: none;
+    transition: border-color .2s;
+  }
+  .form-input:focus { border-color: var(--gold); }
+  .form-input::placeholder { color: rgba(255,255,255,.25); }
+  textarea.form-input { resize: vertical; min-height: 100px; }
+  .form-submit {
+    margin-top: .5rem;
+    width: 100%;
+    background: var(--gold); color: var(--black);
+    font-family: var(--font); font-size: .8rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    padding: 1.1rem 2rem; border: none; cursor: pointer;
+    border-radius: 2px; transition: background .2s;
+  }
+  .form-submit:hover { background: var(--gold-lt); }
+
+  /* ─── FOOTER ──────────────────────────────────── */
+  footer {
+    background: #071818;
+    padding: 2.5rem 5vw;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    border-top: 1px solid rgba(200,169,110,.08);
+  }
+  .footer-logo {
+    font-size: .75rem; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+  }
+  .footer-copy {
+    font-size: .72rem; color: var(--gray); text-align: center;
+  }
+  .footer-link {
+    font-size: .72rem; color: var(--gray); text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-link:hover { color: var(--gold); }
+
+  /* ─── SCROLL REVEAL ───────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity .7s cubic-bezier(.25,.46,.45,.94),
+                transform .7s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+  .reveal-delay-4 { transition-delay: .4s; }
+  .reveal-delay-5 { transition-delay: .5s; }
+
+  /* ─── RESPONSIVE ──────────────────────────────── */
+  @media (max-width: 1024px) {
+    #stats { grid-template-columns: repeat(3, 1fr); }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .process-sticky { position: static; }
+    .collab-grid { grid-template-columns: 1fr; }
+    .contact-layout { grid-template-columns: 1fr; }
+    #about { grid-template-columns: 1fr; }
+    .about-img { min-height: 400px; }
+    #price { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (max-width: 768px) {
+    /* Nav */
+    nav { padding: 0 1.2rem; height: 60px; }
+    .nav-links { display: none; }
+    .nav-logo { font-size: .58rem; letter-spacing: .1em; }
+    .nav-cta { font-size: .65rem; padding: .5rem 1rem; }
+
+    /* Hero — photo becomes background, text full width */
+    .hero-photo-panel {
+      width: 100%; opacity: .35;
+    }
+    .hero-photo-border { display: none; }
+    .hero-content { max-width: 100%; padding: 100px 1.5rem 0; }
+    .hero-display { font-size: clamp(3rem, 14vw, 5rem); }
+    .hero-sub { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: .8rem; }
+
+    /* Stats */
+    #stats { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(46,125,125,.15); padding: 2.5rem 1.5rem; }
+    .stat-item:last-child { border-bottom: none; }
+
+    /* About */
+    #about { grid-template-columns: 1fr; }
+    .about-img { min-height: 320px; }
+    .about-text { padding: 3rem 1.5rem; }
+
+    /* Services */
+    #services { padding: 4rem 1.5rem; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 2rem 1.5rem; }
+
+    /* Process */
+    #process { padding: 4rem 1.5rem; }
+    .process-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .process-intro p { max-width: 100%; }
+
+    /* Why */
+    #why { padding: 4rem 1.5rem; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-card { padding: 2rem 1.5rem; }
+
+    /* Reviews */
+    #reviews { padding: 4rem 1.5rem; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .reviews-score { padding: 1.5rem; }
+
+    /* Price */
+    #price { padding: 4rem 1.5rem; grid-template-columns: 1fr; gap: 2rem; }
+    .price-right { padding: 2rem 1.5rem; }
+
+    /* Collab */
+    #collab { padding: 4rem 1.5rem; }
+    .collab-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+    /* Contact */
+    #contact { padding: 4rem 1.5rem; }
+    .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-form-wrap { padding: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: span 1; }
+    .contact-details { margin-top: 1.5rem; gap: 1.2rem; }
+
+    /* Footer */
+    footer { justify-content: center; text-align: center; padding: 2rem 1.5rem; }
+    .footer-logo { font-size: .65rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Wojciech Majchrzak · Ekspert Kredytowy</a>
+  <ul class="nav-links">
+    <li><a href="#about">O mnie</a></li>
+    <li><a href="#services">Usługi</a></li>
+    <li><a href="#process">Proces</a></li>
+    <li><a href="#reviews">Opinie</a></li>
+    <li><a href="#collab">Współpraca</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Umów spotkanie</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-grid"></div>
+  <!-- Zdjęcie po prawej -->
+  <div class="hero-photo-panel">
+    <img src="wojciech.png" alt="Wojciech Majchrzak — Ekspert Kredytowy">
+  </div>
+  <div class="hero-photo-border"></div>
+  <div class="hero-content">
+    <h1 class="hero-display">
+      KREDYT<br><em>HIPOTECZNY</em><br>BEZ STRESU
+    </h1>
+    <div class="hero-sub">
+      <p class="hero-name">
+        <strong>Wojciech Majchrzak</strong><br>
+        Niezależny ekspert kredytowy z 20-letnim doświadczeniem
+      </p>
+      <div class="hero-actions">
+        <a href="tel:+48609309192" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          Zadzwoń teraz
+        </a>
+        <a href="#about" class="btn-ghost">
+          Dowiedz się więcej
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span class="ticker-item">Kredyty hipoteczne</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">20 lat doświadczenia</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">193 opinie Google</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">Bezpłatna konsultacja</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">Wągrowiec · Skoki · Rogoźno</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">7 banków partnerskich</span><span class="ticker-dot">★</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">Kredyty hipoteczne</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">20 lat doświadczenia</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">193 opinie Google</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">Bezpłatna konsultacja</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">Wągrowiec · Skoki · Rogoźno</span><span class="ticker-dot">★</span>
+      <span class="ticker-item">7 banków partnerskich</span><span class="ticker-dot">★</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stat-item reveal" data-n="20">
+    <div class="stat-num">20<sup>lat</sup></div>
+    <div class="stat-label">Doświadczenia</div>
+    <div class="stat-desc">W branży finansowej od 2005 roku. Setki zakończonych sukcesem procesów.</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1" data-n="193">
+    <div class="stat-num">193<sup>★</sup></div>
+    <div class="stat-label">Opinii Google</div>
+    <div class="stat-desc">Ocena „Doskonała" oparta na rzeczywistych doświadczeniach klientów.</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2" data-n="90%">
+    <div class="stat-num">90<sup>%</sup></div>
+    <div class="stat-label">Klientów z polecenia</div>
+    <div class="stat-desc">Blisko 90% nowych klientów trafia z rekomendacji dotychczasowych.</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img">
+    <img src="budynek.jpg" alt="Biuro Wojciecha Majchrzaka — Wągrowiec, ul. Kościuszki 28">
+    <div class="about-gold-frame"></div>
+    <div class="about-tag">Biuro · Kościuszki 28, Wągrowiec</div>
+  </div>
+  <div class="about-text">
+    <p class="section-eyebrow">O mnie</p>
+    <h2 class="section-title">Nie jestem doradcą&nbsp;—<br><em>jestem partnerem</em><br>w Twojej decyzji</h2>
+    <div class="about-body">
+      <p>Od 2005 roku specjalizuję się w kredytach hipotecznych. Przez te lata pomogłem setkom rodzin przejść przez jeden z najważniejszych momentów w życiu — zakup własnego domu lub mieszkania.</p>
+      <p>Nie pracuję dla banku. Pracuję dla Ciebie. To oznacza, że porównam oferty wszystkich moich 7 banków partnerskich i zaproponuję rozwiązanie skrojone dokładnie pod Twoją sytuację finansową.</p>
+      <p>Nawet trudne sprawy — te, od których inni doradcy się odwracają — chętnie podejmuję. Bo widzę w nich wyzwanie, nie problem.</p>
+    </div>
+    <div class="about-area">
+      <div class="area-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+        </svg>
+      </div>
+      <div class="area-text">
+        <strong>Obszar działania</strong>
+        Wągrowiec, Skoki, Rogoźno i cały powiat wągrowiecki & obornicki.<br>
+        Żadna lokalizacja nie jest przeszkodą do podjęcia współpracy.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header">
+    <div class="section-header-left">
+      <p class="section-eyebrow">Zakres usług</p>
+      <h2 class="section-title reveal" style="color:var(--white)">Czym mogę<br>Ci pomóc?</h2>
+    </div>
+    <p class="section-desc reveal reveal-delay-1">Kompleksowa obsługa od pierwszego kontaktu aż do uruchomienia środków. Zajmuję się też ubezpieczeniami majątkowymi i życiowymi.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819"/>
+        </svg>
+      </div>
+      <div class="service-name">Zakup mieszkania</div>
+      <div class="service-text">Pomoc w wyborze najkorzystniejszego finansowania zakupu mieszkania na rynku pierwotnym lub wtórnym.</div>
+      <span class="service-arrow">→</span>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <div class="service-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+        </svg>
+      </div>
+      <div class="service-name">Zakup domu</div>
+      <div class="service-text">Kredyt hipoteczny na dom — z pełną analizą ofert, doradztwem i obsługą przez cały proces.</div>
+      <span class="service-arrow">→</span>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <div class="service-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
+        </svg>
+      </div>
+      <div class="service-name">Budowa domu</div>
+      <div class="service-text">Finansowanie budowy od podstaw — transzowy kredyt budowlany z pełnym wsparciem w dokumentacji.</div>
+      <span class="service-arrow">→</span>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-num">04</div>
+      <div class="service-icon-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/>
+        </svg>
+      </div>
+      <div class="service-name">Dokończenie budowy</div>
+      <div class="service-text">Kredyt na dokończenie już rozpoczętej budowy — nawet w trudnych sytuacjach formalnych.</div>
+      <span class="service-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-layout">
+    <div class="process-sticky process-intro">
+      <p class="section-eyebrow">Jak działam</p>
+      <h2 class="section-title">6 kroków do<br><em>własnych czterech</em><br>kątów</h2>
+      <p>Przeprowadzę Cię przez każdy etap procesu kredytowego. Żadnych niespodzianek — na bieżąco informuję o każdym kroku.</p>
+      <a href="#contact" class="process-cta">Zacznij teraz →</a>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-left">
+          <div class="step-num">01</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Pierwszy kontakt</div>
+          <div class="step-text">Skontaktuj się telefonicznie, e-mailowo lub przez formularz. Umówimy spotkanie i porozmawiamy o Twoich planach — bez zobowiązań, bezpłatnie.</div>
+        </div>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-left">
+          <div class="step-num">02</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Analiza zdolności kredytowej</div>
+          <div class="step-text">Razem przejdziemy przez Twoją sytuację finansową i ocenimy zdolność kredytową. To fundament każdego procesu — im lepiej to zrobimy, tym silniejszy wniosek trafia do banku.</div>
+        </div>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-left">
+          <div class="step-num">03</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Wybór nieruchomości</div>
+          <div class="step-text">Doradam, na co zwracać uwagę przy wyborze — zarówno od strony finansowej, jak i formalnej. Mam kontakty do sprawdzonych pośredników i rzeczoznawców.</div>
+        </div>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-left">
+          <div class="step-num">04</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Wybór oferty i złożenie wniosku</div>
+          <div class="step-text">Porównuję oferty 7 banków partnerskich i wybieram najkorzystniejszą. Razem kompletujemy dokumenty i składamy wniosek.</div>
+        </div>
+      </div>
+      <div class="process-step reveal reveal-delay-4">
+        <div class="step-left">
+          <div class="step-num">05</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Analiza banku</div>
+          <div class="step-text">Monitoruję przebieg analizy i reaguję na ewentualne pytania banku. Jesteś informowany na bieżąco o każdym kroku.</div>
+        </div>
+      </div>
+      <div class="process-step reveal reveal-delay-5">
+        <div class="step-left">
+          <div class="step-num">06</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-body">
+          <div class="step-title">Decyzja i podpisanie umowy</div>
+          <div class="step-text">Pozytywna decyzja, spełnienie warunków, umowa kredytowa i uruchomienie środków. Towarzyszę Ci do samego końca — i gratuluję nowego domu.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ME -->
+<section id="why">
+  <p class="section-eyebrow" style="text-align:center;">Dlaczego warto</p>
+  <h2 class="section-title reveal" style="color:var(--white);text-align:center;margin-bottom:0;">Co mnie wyróżnia?</h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <span class="why-icon">🏆</span>
+      <div class="why-title">Doświadczenie</div>
+      <div class="why-text">20 lat w branży finansowej. Setki przeprowadzonych procesów kredytowych — od prostych po te naprawdę skomplikowane.</div>
+      <span class="why-highlight">od 2005 roku</span>
+    </div>
+    <div class="why-card reveal reveal-delay-1">
+      <span class="why-icon">📱</span>
+      <div class="why-title">Dyspozycyjność 24/7</div>
+      <div class="why-text">Odpowiadam na SMS i e-mail w ciągu kilkunastu minut. Jeśli nie mogę odebrać telefonu — zawsze oddzwaniam.</div>
+      <span class="why-highlight">poza godzinami biura</span>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <span class="why-icon">🎯</span>
+      <div class="why-title">Indywidualne podejście</div>
+      <div class="why-text">Nie ma dwóch takich samych wniosków. Każda sytuacja finansowa wymaga własnej strategii — i taką właśnie dostajesz.</div>
+      <span class="why-highlight">90% klientów z polecenia</span>
+    </div>
+    <div class="why-card reveal reveal-delay-3">
+      <span class="why-icon">⚡</span>
+      <div class="why-title">Skuteczność</div>
+      <div class="why-text">Podejmuję się nawet trudnych spraw. Wieloletnia wiedza i relacje z bankami przekładają się na realne wyniki.</div>
+      <span class="why-highlight">trudne sprawy mile widziane</span>
+    </div>
+    <div class="why-card reveal reveal-delay-4">
+      <span class="why-icon">🤝</span>
+      <div class="why-title">Zaufani partnerzy</div>
+      <div class="why-text">Współpracuję z pośrednikami nieruchomości, rzeczoznawcami i notariuszami. Możesz liczyć na kompleksową obsługę.</div>
+      <span class="why-highlight">pełna sieć specjalistów</span>
+    </div>
+    <div class="why-card reveal reveal-delay-5">
+      <span class="why-icon">🛡️</span>
+      <div class="why-title">Ubezpieczenia</div>
+      <div class="why-text">Od 2007 roku zajmuję się też ubezpieczeniami majątkowymi i życiowymi. Jedna rozmowa — kompleksowe zabezpieczenie.</div>
+      <span class="why-highlight">majątkowe i życiowe</span>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <p class="section-eyebrow">Opinie klientów</p>
+  <h2 class="section-title reveal">Co mówią<br>klienci?</h2>
+  <div class="reviews-score reveal">
+    <div class="score-num">5.0</div>
+    <div class="score-right">
+      <div class="score-stars">★★★★★</div>
+      <div class="score-label">Ocena Google</div>
+      <div class="score-count">Na podstawie 193 opinii</div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Szybka, sprawna komunikacja, był to nasz pierwszy kredyt hipoteczny i czuliśmy się dobrze poinformowani oraz bezpieczni pod opieką pana Wojciecha.</div>
+      <div class="review-author">
+        <div class="author-avatar">MP</div>
+        <div>
+          <div class="author-name">Mateusz Prais</div>
+          <div class="author-date">Marzec 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-1">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Nie mieliśmy zielonego pojęcia jak załatwić kredyt hipoteczny w naszej dość skomplikowanej sytuacji, jednak Pan Wojtek znalazł rozwiązanie i dobrnęliśmy do celu — zakupu domu. Polecamy z pełną odpowiedzialnością.</div>
+      <div class="review-author">
+        <div class="author-avatar">TM</div>
+        <div>
+          <div class="author-name">Tomasz Mendelewski</div>
+          <div class="author-date">2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-2">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Bardzo polecamy! Profesjonalne podejście, sprawna realizacja i pełne wsparcie na każdym etapie procesu. Pan Wojciech to właściwy człowiek na właściwym miejscu.</div>
+      <div class="review-author">
+        <div class="author-avatar">DW</div>
+        <div>
+          <div class="author-name">Dominika Wudzińska</div>
+          <div class="author-date">Luty 2026</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-3">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Pełen profesjonalizm i fachowa wiedza. Jako klient, który był w tym temacie „zielony", jestem bardzo zadowolony. Dzięki Panu Wojtkowi wszystko okazało się takie proste.</div>
+      <div class="review-author">
+        <div class="author-avatar">JB</div>
+        <div>
+          <div class="author-name">Jakub Babrakowski</div>
+          <div class="author-date">2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-4">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Duża wiedza, pełen profesjonalizm, rzetelność — doradca godny zaufania. Przez cały proces mogłam liczyć na wyjaśnienia każdego pytania. Szczerze polecam.</div>
+      <div class="review-author">
+        <div class="author-avatar">NG</div>
+        <div>
+          <div class="author-name">Natalia Galuba</div>
+          <div class="author-date">2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-5">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">Pan Wojciech jest do dyspozycji klienta prawie 24h. Zawsze gotowy odpowiedzieć na każde pytanie. Kontakt dostałem z polecenia — i teraz sam polecam z przekonaniem.</div>
+      <div class="review-author">
+        <div class="author-avatar">RW</div>
+        <div>
+          <div class="author-name">Robert Wendland</div>
+          <div class="author-date">2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDING PHOTO BREAK -->
+<section id="building-break">
+  <div class="building-img-wrap">
+    <div class="building-photo-side">
+      <img src="budynek.jpg" alt="Biuro eksperta kredytowego — Wągrowiec">
+    </div>
+    <div class="building-info-side">
+      <p class="building-eyebrow">Nasze biuro</p>
+      <h3 class="building-title">ul. Kościuszki&nbsp;28,<br>Wągrowiec</h3>
+      <p class="building-hours">Pon – Pt &nbsp;·&nbsp; 9:00 – 17:00</p>
+      <a href="#contact" class="building-cta">Umów spotkanie →</a>
+    </div>
+  </div>
+</section>
+
+<!-- BANKS -->
+<section id="banks">
+  <p class="banks-label">Banki partnerskie</p>
+  <div style="overflow:hidden;">
+    <div class="banks-strip">
+      <div class="bank-item">Alior Bank</div>
+      <div class="bank-item">PKO BP</div>
+      <div class="bank-item">BNP Paribas</div>
+      <div class="bank-item">ING</div>
+      <div class="bank-item">mBank</div>
+      <div class="bank-item">Millennium</div>
+      <div class="bank-item">Santander</div>
+      <!-- duplicate -->
+      <div class="bank-item">Alior Bank</div>
+      <div class="bank-item">PKO BP</div>
+      <div class="bank-item">BNP Paribas</div>
+      <div class="bank-item">ING</div>
+      <div class="bank-item">mBank</div>
+      <div class="bank-item">Millennium</div>
+      <div class="bank-item">Santander</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section id="price">
+  <div class="price-left reveal">
+    <span class="price-eyebrow">Koszt moich usług</span>
+    <h2 class="price-heading">Ile zapłacisz<br>za moją pomoc?</h2>
+    <p class="price-sub">
+      Moja pomoc przy uzyskaniu kredytu hipotecznego nic Cię nie kosztuje. <strong>Wynagrodzenie otrzymuję od banku</strong>, w którym uzyskasz finansowanie — bez żadnych ukrytych opłat dla Ciebie.
+    </p>
+    <div style="margin-top:2.5rem;">
+      <a href="#contact" class="btn-primary">Umów bezpłatną konsultację →</a>
+    </div>
+  </div>
+  <div class="price-right reveal reveal-delay-1">
+    <div class="price-badge">
+      <div class="price-zero">0</div>
+      <div class="price-currency">zł</div>
+    </div>
+    <div class="price-label">Koszt dla klienta</div>
+    <p style="font-size:.85rem;font-weight:300;color:var(--gray);line-height:1.8;">
+      Kredytami hipotecznymi zajmuję się prawie pół życia. Sprawnie i szybko przebrnę razem z Tobą przez gąszcz ofert bankowych i znajdziemy najtańsze finansowanie.
+    </p>
+  </div>
+</section>
+
+<!-- COLLABORATION -->
+<section id="collab">
+  <div class="collab-grid">
+    <div class="collab-left">
+      <p class="section-eyebrow">Współpraca B2B</p>
+      <h2 class="section-title">Działasz<br>w branży<br><em>nieruchomości?</em></h2>
+      <p>Zapraszam do współpracy pośredników, inwestorów i deweloperów. Szybkie finansowanie dla Twoich klientów to szybsza sprzedaż dla Ciebie.</p>
+      <a href="#contact" class="btn-primary">Porozmawiajmy →</a>
+    </div>
+    <div class="collab-cards">
+      <div class="collab-card">
+        <div class="collab-card-icon">🏠</div>
+        <div>
+          <div class="collab-card-title">Pośrednicy nieruchomości</div>
+          <div class="collab-card-text">Skuteczny ekspert kredytowy to więcej sfinalizowanych transakcji. Pomagam Twoim klientom uzyskać finansowanie.</div>
+        </div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-card-icon">📊</div>
+        <div>
+          <div class="collab-card-title">Inwestorzy</div>
+          <div class="collab-card-text">Szybkie finansowanie kolejnych inwestycji. Optymalizacja struktury kredytowej pod portfel nieruchomości.</div>
+        </div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-card-icon">🏗️</div>
+        <div>
+          <div class="collab-card-title">Deweloperzy</div>
+          <div class="collab-card-text">Obsługa kupujących mieszkania z Twojej inwestycji. Szybki kredyt to szybsza sprzedaż i płynność dla Ciebie.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-layout">
+    <div class="contact-info">
+      <p class="section-eyebrow" style="color:var(--gold)">Kontakt</p>
+      <h2 class="section-title reveal" style="color:var(--white)">Porozmawiajmy<br>o Twoim<br><em>kredycie</em></h2>
+      <div class="contact-details">
+        <div class="contact-detail reveal">
+          <div class="detail-icon">📞</div>
+          <div>
+            <div class="detail-label">Telefon</div>
+            <div class="detail-value"><a href="tel:+48609309192">+48 609 309 192</a></div>
+          </div>
+        </div>
+        <div class="contact-detail reveal reveal-delay-1">
+          <div class="detail-icon">✉️</div>
+          <div>
+            <div class="detail-label">E-mail</div>
+            <div class="detail-value"><a href="mailto:biuro@wmajchrzak.pl">biuro@wmajchrzak.pl</a></div>
+          </div>
+        </div>
+        <div class="contact-detail reveal reveal-delay-2">
+          <div class="detail-icon">📍</div>
+          <div>
+            <div class="detail-label">Adres biura</div>
+            <div class="detail-value">ul. Kościuszki 28, Wągrowiec</div>
+          </div>
+        </div>
+        <div class="contact-detail reveal reveal-delay-3">
+          <div class="detail-icon">🕐</div>
+          <div>
+            <div class="detail-label">Godziny pracy</div>
+            <div class="detail-value">Pon–Pt, 9:00–17:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-wrap reveal">
+      <div class="form-title">Wyślij zapytanie</div>
+      <form onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Imię i nazwisko *</label>
+            <input type="text" class="form-input" placeholder="Jan Kowalski">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefon *</label>
+            <input type="tel" class="form-input" placeholder="+48 600 000 000">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">E-mail *</label>
+            <input type="email" class="form-input" placeholder="jan@email.pl">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Temat</label>
+            <input type="text" class="form-input" placeholder="Kredyt na mieszkanie">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label class="form-label">Wiadomość *</label>
+            <textarea class="form-input" placeholder="Opisz krótko swoją sytuację i czego potrzebujesz..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">Wyślij zapytanie →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">WM · Ekspert Kredytowy</div>
+  <div class="footer-copy">© 2026 Usługi Finansowe i Ubezpieczeniowe Wojciech Majchrzak<br>NIP 606-002-26-52 · REGON 300124684</div>
+  <a href="#" class="footer-link">Polityka prywatności</a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Nav shrink on scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.height = window.scrollY > 80 ? '60px' : '72px';
+  });
+</script>
+</body>
+</html>
