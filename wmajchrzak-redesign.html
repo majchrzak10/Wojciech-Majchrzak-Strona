@@ -398,72 +398,66 @@
 
   /* ─── PROCESS ─────────────────────────────────── */
   #process {
-    background: var(--cream);
+    background: var(--black);
     padding: 5rem 5vw;
   }
-  .process-layout {
-    display: grid; grid-template-columns: 1fr 1.6fr;
-    gap: 3rem; align-items: start;
+  .process-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 3.5rem;
   }
-  .process-sticky {
-    position: sticky; top: 120px;
-  }
-  .process-intro .section-title { color: var(--black); }
-  .process-intro p {
+  .process-header .section-eyebrow { display: block; }
+  .process-header .section-title { color: var(--white); }
+  .process-header p {
     font-size: .9rem; font-weight: 300; color: var(--gray);
-    line-height: 1.8; margin-top: 1.5rem; max-width: 320px;
+    line-height: 1.8; margin-top: 1.2rem;
   }
   .process-cta {
-    margin-top: 3rem;
+    margin-top: 1.8rem;
     display: inline-flex; align-items: center; gap: .7rem;
     font-size: .75rem; font-weight: 700; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--black);
+    text-transform: uppercase; color: var(--white);
     text-decoration: none;
     padding-bottom: .3rem;
     border-bottom: 2px solid var(--gold);
     transition: color .2s, gap .2s;
   }
-  .process-cta:hover { color: var(--gold); gap: 1rem; }
+  .process-cta:hover { color: var(--gold-lt); gap: 1rem; }
 
-  .process-steps { display: flex; flex-direction: column; }
-  .process-step {
-    display: grid; grid-template-columns: auto 1fr;
-    gap: 0 1.5rem;
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .process-card {
+    background: var(--navy);
+    padding: 2.2rem 2rem;
     position: relative;
+    transition: background .3s;
   }
-  .step-left {
-    display: flex; flex-direction: column; align-items: center;
+  .process-card:hover { background: var(--graphite); }
+  .process-card-num {
+    font-size: .68rem; font-weight: 800; letter-spacing: .22em;
+    color: var(--gold-lt);
+    margin-bottom: 1.1rem;
+    display: flex; align-items: center; gap: .9rem;
   }
-  .step-num {
-    width: 42px; height: 42px; border-radius: 50%;
-    background: var(--black);
-    display: flex; align-items: center; justify-content: center;
-    font-size: .75rem; font-weight: 800; color: var(--gold);
-    flex-shrink: 0; position: relative; z-index: 1;
-    border: 2px solid rgba(200,169,110,.2);
-    transition: background .3s, border-color .3s;
+  .process-card-num::after {
+    content: ''; display: block; flex: 1;
+    height: 1px; background: rgba(74,160,160,.2);
   }
-  .process-step:hover .step-num {
-    background: var(--gold); color: var(--black); border-color: var(--gold);
+  .process-card-title {
+    font-size: 1rem; font-weight: 700;
+    color: var(--white); margin-bottom: .7rem;
+    line-height: 1.3;
   }
-  .step-line {
-    width: 1px; flex: 1;
-    background: rgba(0,0,0,.1);
-    margin: .5rem 0;
-    min-height: 1.2rem;
-  }
-  .process-step:last-child .step-line { display: none; }
-  .step-body {
-    padding-bottom: 1.5rem;
-    padding-top: .4rem;
-  }
-  .step-title {
-    font-size: 1.05rem; font-weight: 700;
-    color: var(--black); margin-bottom: .7rem;
-  }
-  .step-text {
-    font-size: .85rem; font-weight: 300; color: var(--gray);
-    line-height: 1.8; max-width: 480px;
+  .process-card-text {
+    font-size: .82rem; font-weight: 300; color: var(--gray);
+    line-height: 1.8;
   }
 
   /* ─── WHY ME ──────────────────────────────────── */
@@ -824,8 +818,7 @@
     #stats { grid-template-columns: repeat(3, 1fr); }
     .services-grid { grid-template-columns: repeat(2, 1fr); }
     .why-grid { grid-template-columns: repeat(2, 1fr); }
-    .process-layout { grid-template-columns: 1fr; gap: 3rem; }
-    .process-sticky { position: static; }
+    .process-grid { grid-template-columns: repeat(2, 1fr); }
     .collab-grid { grid-template-columns: 1fr; }
     .contact-layout { grid-template-columns: 1fr; }
     #about { grid-template-columns: 1fr; }
@@ -867,8 +860,7 @@
 
     /* Process */
     #process { padding: 4rem 1.5rem; }
-    .process-layout { grid-template-columns: 1fr; gap: 2rem; }
-    .process-intro p { max-width: 100%; }
+    .process-grid { grid-template-columns: 1fr; }
 
     /* Why */
     #why { padding: 4rem 1.5rem; }
@@ -1076,74 +1068,42 @@
 
 <!-- PROCESS -->
 <section id="process">
-  <div class="process-layout">
-    <div class="process-sticky process-intro">
-      <p class="section-eyebrow">Jak działam</p>
-      <h2 class="section-title">6 kroków do<br><em>własnych czterech</em><br>kątów</h2>
-      <p>Przeprowadzę Cię przez każdy etap procesu kredytowego. Żadnych niespodzianek — na bieżąco informuję o każdym kroku.</p>
-      <a href="#contact" class="process-cta">Zacznij teraz →</a>
+  <div class="process-header reveal">
+    <p class="section-eyebrow">Jak działam</p>
+    <h2 class="section-title">6 kroków do<br><em>własnych czterech</em><br>kątów</h2>
+    <p>Przeprowadzę Cię przez każdy etap procesu kredytowego. Żadnych niespodzianek — na bieżąco informuję o każdym kroku.</p>
+    <a href="#contact" class="process-cta">Zacznij teraz →</a>
+  </div>
+  <div class="process-grid">
+    <div class="process-card reveal">
+      <div class="process-card-num">01</div>
+      <div class="process-card-title">Pierwszy kontakt</div>
+      <div class="process-card-text">Skontaktuj się telefonicznie, e-mailowo lub przez formularz. Umówimy spotkanie i porozmawiamy o Twoich planach — bez zobowiązań, bezpłatnie.</div>
     </div>
-    <div class="process-steps">
-      <div class="process-step reveal">
-        <div class="step-left">
-          <div class="step-num">01</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-body">
-          <div class="step-title">Pierwszy kontakt</div>
-          <div class="step-text">Skontaktuj się telefonicznie, e-mailowo lub przez formularz. Umówimy spotkanie i porozmawiamy o Twoich planach — bez zobowiązań, bezpłatnie.</div>
-        </div>
-      </div>
-      <div class="process-step reveal reveal-delay-1">
-        <div class="step-left">
-          <div class="step-num">02</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-body">
-          <div class="step-title">Analiza zdolności kredytowej</div>
-          <div class="step-text">Razem przejdziemy przez Twoją sytuację finansową i ocenimy zdolność kredytową. To fundament każdego procesu — im lepiej to zrobimy, tym silniejszy wniosek trafia do banku.</div>
-        </div>
-      </div>
-      <div class="process-step reveal reveal-delay-2">
-        <div class="step-left">
-          <div class="step-num">03</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-body">
-          <div class="step-title">Wybór nieruchomości</div>
-          <div class="step-text">Doradam, na co zwracać uwagę przy wyborze — zarówno od strony finansowej, jak i formalnej. Mam kontakty do sprawdzonych pośredników i rzeczoznawców.</div>
-        </div>
-      </div>
-      <div class="process-step reveal reveal-delay-3">
-        <div class="step-left">
-          <div class="step-num">04</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-body">
-          <div class="step-title">Wybór oferty i złożenie wniosku</div>
-          <div class="step-text">Porównuję oferty 7 banków partnerskich i wybieram najkorzystniejszą. Razem kompletujemy dokumenty i składamy wniosek.</div>
-        </div>
-      </div>
-      <div class="process-step reveal reveal-delay-4">
-        <div class="step-left">
-          <div class="step-num">05</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-body">
-          <div class="step-title">Analiza banku</div>
-          <div class="step-text">Monitoruję przebieg analizy i reaguję na ewentualne pytania banku. Jesteś informowany na bieżąco o każdym kroku.</div>
-        </div>
-      </div>
-      <div class="process-step reveal reveal-delay-5">
-        <div class="step-left">
-          <div class="step-num">06</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-body">
-          <div class="step-title">Decyzja i podpisanie umowy</div>
-          <div class="step-text">Pozytywna decyzja, spełnienie warunków, umowa kredytowa i uruchomienie środków. Towarzyszę Ci do samego końca — i gratuluję nowego domu.</div>
-        </div>
-      </div>
+    <div class="process-card reveal reveal-delay-1">
+      <div class="process-card-num">02</div>
+      <div class="process-card-title">Analiza zdolności kredytowej</div>
+      <div class="process-card-text">Razem przejdziemy przez Twoją sytuację finansową i ocenimy zdolność kredytową. To fundament każdego procesu — im lepiej to zrobimy, tym silniejszy wniosek trafia do banku.</div>
+    </div>
+    <div class="process-card reveal reveal-delay-2">
+      <div class="process-card-num">03</div>
+      <div class="process-card-title">Wybór nieruchomości</div>
+      <div class="process-card-text">Doradam, na co zwracać uwagę przy wyborze — zarówno od strony finansowej, jak i formalnej. Mam kontakty do sprawdzonych pośredników i rzeczoznawców.</div>
+    </div>
+    <div class="process-card reveal reveal-delay-3">
+      <div class="process-card-num">04</div>
+      <div class="process-card-title">Wybór oferty i złożenie wniosku</div>
+      <div class="process-card-text">Porównuję oferty 7 banków partnerskich i wybieram najkorzystniejszą. Razem kompletujemy dokumenty i składamy wniosek.</div>
+    </div>
+    <div class="process-card reveal reveal-delay-4">
+      <div class="process-card-num">05</div>
+      <div class="process-card-title">Analiza banku</div>
+      <div class="process-card-text">Monitoruję przebieg analizy i reaguję na ewentualne pytania banku. Jesteś informowany na bieżąco o każdym kroku.</div>
+    </div>
+    <div class="process-card reveal reveal-delay-5">
+      <div class="process-card-num">06</div>
+      <div class="process-card-title">Decyzja i podpisanie umowy</div>
+      <div class="process-card-text">Pozytywna decyzja, spełnienie warunków, umowa kredytowa i uruchomienie środków. Towarzyszę Ci do samego końca — i gratuluję nowego domu.</div>
     </div>
   </div>
 </section>
