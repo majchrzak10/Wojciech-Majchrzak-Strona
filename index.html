@@ -1115,6 +1115,38 @@
   }
   .faq-a strong { color: var(--gold); }
 
+  /* ─── SIDEBAR FAQ (w panelu about-services, na ciemnym tle) ─── */
+  .sidebar-faq-list { margin-top: 1.5rem; position: relative; z-index: 3; }
+  .sidebar-faq-list .faq-item {
+    border-bottom: 1px solid rgba(74,160,160,.18);
+  }
+  .sidebar-faq-list .faq-item:first-child {
+    border-top: 1px solid rgba(74,160,160,.18);
+  }
+  .sidebar-faq-list .faq-q {
+    color: var(--white);
+    font-size: .85rem;
+    padding: 1rem 0;
+    line-height: 1.45;
+  }
+  .sidebar-faq-list .faq-q:hover { color: var(--gold-lt); }
+  .sidebar-faq-list .faq-icon {
+    background: var(--gold);
+    color: var(--black);
+    width: 20px; height: 20px;
+    font-size: .9rem;
+  }
+  .sidebar-faq-list .faq-item.open .faq-icon {
+    background: var(--white);
+    color: var(--black);
+  }
+  .sidebar-faq-list .faq-a {
+    color: rgba(245,251,251,.72);
+    font-size: .82rem;
+    line-height: 1.7;
+  }
+  .sidebar-faq-list .faq-a strong { color: var(--gold-lt); }
+
   /* ─── FOOTER ──────────────────────────────────── */
   footer {
     background: #071818;
@@ -1296,7 +1328,6 @@
     <li><a href="#process">Proces</a></li>
     <li><a href="#reviews">Opinie</a></li>
     <li><a href="#collab">Współpraca</a></li>
-    <li><a href="#faq">FAQ</a></li>
   </ul>
   <a class="nav-cta" href="#contact">Umów spotkanie</a>
 </nav>
@@ -1374,16 +1405,90 @@
 <section id="about">
   <div class="about-services reveal">
     <div class="about-gold-frame"></div>
-    <p class="section-eyebrow" style="margin-bottom:1.2rem;">Zakres usług</p>
-    <h3 class="about-srv-title">W czym mogę<br><em>Ci pomóc?</em></h3>
-    <p class="about-srv-sub">Kompleksowa obsługa od pierwszego kontaktu aż do uruchomienia środków — w 7 bankach partnerskich.</p>
-    <ul class="about-srv-list">
-      <li><span class="srv-num">01</span><span class="srv-name">Zakup mieszkania</span></li>
-      <li><span class="srv-num">02</span><span class="srv-name">Zakup domu</span></li>
-      <li><span class="srv-num">03</span><span class="srv-name">Budowa domu</span></li>
-      <li><span class="srv-num">04</span><span class="srv-name">Dokończenie budowy</span></li>
-    </ul>
-    <a href="#services" class="about-srv-cta">Wszystkie usługi →</a>
+    <p class="section-eyebrow" style="margin-bottom:1.2rem;">Najczęstsze pytania</p>
+    <h3 class="about-srv-title">Co warto<br><em>wiedzieć?</em></h3>
+
+    <div class="sidebar-faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Ile wynosi minimalny wkład własny?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Standardowo banki wymagają <strong>min. 10–20%</strong> wartości nieruchomości. Przy 10% wkładzie część banków wymaga dodatkowego ubezpieczenia. Wkład może pochodzić też z <strong>darowizny od rodziny</strong> — nie musi to być wyłącznie Twoje oszczędności.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Negatywny BIK — koniec drogi do kredytu?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Nie zawsze. Liczy się <strong>co dokładnie widnieje w BIK</strong> — kwota, jak dawno, czy spłacone. Niektóre banki są bardziej elastyczne. <strong>Nie składaj wniosków samodzielnie</strong> po odmowie — każde odrzucenie pogarsza pozycję. Skonsultuj się najpierw.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Stała czy zmienna stopa procentowa?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <strong>Zmienna</strong> rośnie/maleje z decyzjami NBP. <strong>Stała</strong> daje pewność niezmiennej raty (najczęściej 5 lat), kosztem nieco wyższej marży. Wybór zależy od Twojej tolerancji na ryzyko i horyzontu czasowego.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Kredyt na działalności gospodarczej?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Tak, ale banki różnie oceniają dochody z DG. Zwykle wymagają <strong>min. 12–24 miesięcy historii</strong>. Osoby na ryczałcie czy karcie podatkowej mają różne możliwości w różnych bankach — kluczowy jest dobór odpowiedniej instytucji.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Czy warunki kredytu można negocjować?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Tak — <strong>marżę, prowizję i ubezpieczenia</strong> często można negocjować. Ekspert zna możliwości każdego banku. Różnica 0,2% marży na 300 000 zł to ponad <strong>12 000 zł mniej</strong> w 25 lat.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Jaki dochód na 300 000 zł kredytu?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Rata 300 000 zł na 25 lat to dziś ok. <strong>1 700–2 100 zł</strong>. Banki wymagają, by suma rat nie przekraczała 40–50% dochodu netto. Para z łącznym dochodem ~5 000 zł netto ma realną szansę. Każda sytuacja jest inna.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Ekspert vs doradca w banku?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Doradca bankowy pracuje dla <strong>jednego banku</strong>. Ekspert kredytowy jest niezależny — porównuje oferty wielu banków i działa w interesie klienta. Wynagrodzenie otrzymuje od banku po uruchomieniu kredytu, więc dla Ciebie pomoc jest <strong>całkowicie bezpłatna</strong>.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Co przygotować na pierwsze spotkanie?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          Wystarczy <strong>dobry nastrój i pytania</strong>. Przydatne dokumenty: dowód osobisty, ostatnie odcinki wynagrodzenia lub PIT. Resztę omówimy na miejscu — nie musisz przychodzić z gotową ofertą banku.
+        </div>
+      </div>
+    </div>
   </div>
   <div class="about-text">
     <p class="section-eyebrow">O mnie</p>
@@ -1706,97 +1811,6 @@
     <p class="biuro-eyebrow">Moje biuro</p>
     <h3 class="biuro-title"><a href="https://www.google.com/maps/search/Wojciech+Majchrzak+Ekspert+kredytowy+W%C4%85growiec" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none;">ul. Kościuszki&nbsp;28,<br>Wągrowiec ↗</a></h3>
     <p class="biuro-hours">Pon – Pt &nbsp;·&nbsp; 9:00 – 17:00</p>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="faq-header reveal">
-    <p class="section-eyebrow">Najczęstsze pytania</p>
-    <h2 class="section-title">Co warto wiedzieć<br>przed wzięciem<br><em>kredytu?</em></h2>
-  </div>
-  <div class="faq-list">
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Czym różni się ekspert kredytowy od doradcy w banku?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Doradca bankowy pracuje dla <strong>jednego banku</strong> i może zaproponować wyłącznie jego produkty. Ekspert kredytowy jest niezależny — porównuje oferty wielu banków i działa w interesie klienta, nie instytucji. Co kluczowe: ekspert jest wynagradzany przez bank po uruchomieniu kredytu, więc dla Ciebie jego pomoc jest <strong>całkowicie bezpłatna</strong>.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Jaki dochód potrzebuję na kredyt hipoteczny 300 000 zł?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Dla kredytu 300 000 zł na 25 lat rata wynosi dziś ok. <strong>1 700–2 100 zł</strong> (zależnie od banku i stopy). Banki wymagają, by suma wszystkich rat nie przekraczała 40–50% dochodu netto. Oznacza to, że para z łącznym dochodem ok. 5 000 zł netto ma realną szansę. Każda sytuacja jest jednak inna — warto sprawdzić indywidualnie, zanim wyciągniesz własne wnioski.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Ile wynosi minimalny wkład własny i skąd może pochodzić?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Standardowo banki wymagają <strong>min. 10–20%</strong> wartości nieruchomości. Przy 10% wkładzie część banków wymaga dodatkowego ubezpieczenia. Ważne: wkład własny może pochodzić z <strong>darowizny od rodziny</strong> — nie musi to być wyłącznie Twoje oszczędności. Liczy się też wartość działki, jeśli budujesz dom.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Czy negatywna historia w BIK całkowicie zamyka mi drogę do kredytu?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Nie zawsze. Wiele zależy od tego, <strong>co dokładnie widnieje w BIK</strong> — jaka kwota, jak dawno i czy zobowiązanie zostało spłacone. Niektóre banki są bardziej elastyczne wobec trudniejszych historii. Kluczowa zasada: <strong>nie składaj wniosków samodzielnie</strong> do kolejnych banków po odmowie — każde odrzucenie widnieje w BIK i pogarsza Twoją pozycję. Najpierw skonsultuj się z ekspertem.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Stała czy zmienna stopa procentowa — co wybrać?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Przy <strong>stopie zmiennej</strong> rata może rosnąć lub maleć wraz z decyzjami NBP — tak jak to widzieliśmy w latach 2021–2023. <strong>Stała stopa</strong> daje pewność niezmiennej raty przez określony czas (najczęściej 5 lat), kosztem nieco wyższej marży banku. Wybór zależy od Twojej tolerancji na ryzyko i horyzontu czasowego. Żadna opcja nie jest obiektywnie lepsza — liczy się Twoja sytuacja.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Czy mogę dostać kredyt hipoteczny prowadząc własną działalność?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Tak, ale banki różnie oceniają dochody z działalności. Zazwyczaj wymagają <strong>min. 12–24 miesięcy historii</strong> oraz rozliczenia przez PIT. Osoby na ryczałcie lub karcie podatkowej mają różne możliwości w różnych bankach. Dobór odpowiedniej instytucji pod Twój rodzaj dochodu to jedna z kluczowych ról eksperta kredytowego.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Czy warunki kredytu można negocjować z bankiem?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Tak — <strong>marżę, prowizję i warunki ubezpieczeń</strong> często można negocjować. Ekspert kredytowy zna możliwości negocjacyjne każdego banku i potrafi uzyskać warunki, które nie są dostępne w standardowej ofercie dla klientów indywidualnych. Różnica 0,2% marży na kredycie 300 000 zł to ponad <strong>12 000 zł mniej</strong> w ciągu 25 lat.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">
-        Co powinienem przygotować przed pierwszym spotkaniem?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-a">
-        Wystarczy <strong>dobry nastrój i pytania</strong> — pierwsze spotkanie to głównie rozmowa o Twojej sytuacji. Przydatne dokumenty to: dowód osobisty, ostatnie odcinki wynagrodzenia lub PIT. Resztę omówimy na miejscu. Nie musisz przychodzić z gotową ofertą banku ani decyzją — od tego jestem ja.
-      </div>
-    </div>
-
   </div>
 </section>
 
