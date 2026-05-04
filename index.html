@@ -34,6 +34,9 @@
 <!-- Favicon -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232E7D7D'/><text x='50%25' y='54%25' font-family='sans-serif' font-size='12' font-weight='700' fill='white' text-anchor='middle' dominant-baseline='middle'>WM</text></svg>" type="image/svg+xml">
 
+<!-- Preload hero image (LCP optimization) -->
+<link rel="preload" as="image" href="wojciech-majchrzak-ekspert-kredytowy.jpg" fetchpriority="high">
+
 <!-- Fonty -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1234,6 +1237,54 @@
     .footer-logo { font-size: .65rem; }
   }
 </style>
+<style>
+  /* ─── MOBILE STICKY CTA (tylko < 768px) ──────────────────── */
+  .mobile-sticky-cta {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .mobile-sticky-cta {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 95;
+      background: rgba(11,31,31,.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(46,125,125,.3);
+      padding: .7rem .8rem calc(.7rem + env(safe-area-inset-bottom));
+      gap: .6rem;
+    }
+    .mobile-sticky-cta a {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .85rem 1rem;
+      border-radius: 4px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: opacity .2s, transform .15s;
+    }
+    .mobile-sticky-cta a:active { transform: scale(.97); }
+    .mobile-sticky-cta .msc-call {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .mobile-sticky-cta .msc-form {
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+    /* Padding na dole body żeby sticky CTA nie zasłaniało footera */
+    body {
+      padding-bottom: 70px;
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -1839,38 +1890,72 @@
     </div>
     <div class="contact-form-wrap reveal">
       <div class="form-title">Wyślij zapytanie</div>
-      <form onsubmit="return false;">
+      <!--
+        WEB3FORMS BACKEND — wymagany access_key
+        1. Zarejestruj konto na https://web3forms.com (email odbiorcy: biuro@wmajchrzak.pl)
+        2. Skopiuj access key (UUID) i zastąp tutaj WEB3FORMS_KEY_HERE
+        3. Bez tego klucza formularz nie wyśle nic
+      -->
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="WEB3FORMS_KEY_HERE">
+        <input type="hidden" name="subject" value="wmajchrzak.pl — nowe zapytanie z formularza">
+        <input type="hidden" name="from_name" value="wmajchrzak.pl — formularz kontaktowy">
+        <input type="hidden" name="redirect" value="https://www.wmajchrzak.pl/?wyslane=tak">
+        <!-- Honeypot anti-spam (ukryte dla użytkownika, boty wypełniają) -->
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Imię i nazwisko *</label>
-            <input type="text" class="form-input" placeholder="Jan Kowalski">
+            <label class="form-label" for="f-imie">Imię i nazwisko *</label>
+            <input type="text" name="imie_nazwisko" id="f-imie" class="form-input" placeholder="Jan Kowalski" required minlength="3" autocomplete="name">
           </div>
           <div class="form-group">
-            <label class="form-label">Telefon *</label>
-            <input type="tel" class="form-input" placeholder="+48 600 000 000">
+            <label class="form-label" for="f-tel">Telefon *</label>
+            <input type="tel" name="telefon" id="f-tel" class="form-input" placeholder="+48 600 000 000" required pattern="[+0-9 ()-]{9,}" autocomplete="tel">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">E-mail *</label>
-            <input type="email" class="form-input" placeholder="jan@email.pl">
+            <label class="form-label" for="f-email">E-mail *</label>
+            <input type="email" name="email" id="f-email" class="form-input" placeholder="jan@email.pl" required autocomplete="email">
           </div>
           <div class="form-group">
-            <label class="form-label">Temat</label>
-            <input type="text" class="form-input" placeholder="Kredyt na mieszkanie">
+            <label class="form-label" for="f-temat">Temat</label>
+            <input type="text" name="temat" id="f-temat" class="form-input" placeholder="Kredyt na mieszkanie" autocomplete="off">
           </div>
         </div>
         <div class="form-row">
           <div class="form-group full">
-            <label class="form-label">Wiadomość *</label>
-            <textarea class="form-input" placeholder="Opisz krótko swoją sytuację i czego potrzebujesz..."></textarea>
+            <label class="form-label" for="f-wiad">Wiadomość *</label>
+            <textarea name="wiadomosc" id="f-wiad" class="form-input" placeholder="Opisz krótko swoją sytuację i czego potrzebujesz..." required minlength="10"></textarea>
           </div>
         </div>
+
+        <!-- RODO consent (wymagane prawnie) -->
+        <div class="form-row" style="margin-top:.5rem;">
+          <label style="display:flex;align-items:flex-start;gap:.7rem;font-size:.78rem;line-height:1.55;color:rgba(245,251,251,.78);cursor:pointer;">
+            <input type="checkbox" name="rodo_consent" required style="margin-top:.3rem;flex-shrink:0;width:1.1rem;height:1.1rem;cursor:pointer;accent-color:var(--gold);">
+            <span>
+              Wyrażam zgodę na przetwarzanie moich danych osobowych (imię, telefon, e-mail, treść wiadomości) przez Wojciecha Majchrzaka w celu odpowiedzi na zapytanie. Dane przetwarzane zgodnie z <a href="#" onclick="document.getElementById('privacy-modal').style.display='flex';return false;" style="color:var(--gold);text-decoration:underline;">polityką prywatności</a>. *
+            </span>
+          </label>
+        </div>
+
         <button type="submit" class="form-submit">Wyślij zapytanie →</button>
       </form>
     </div>
   </div>
 </section>
+
+<!-- MOBILE STICKY CTA -->
+<div class="mobile-sticky-cta" aria-label="Szybki kontakt">
+  <a href="tel:+48609309192" class="msc-call" aria-label="Zadzwoń: 609 309 192">
+    📞 Zadzwoń
+  </a>
+  <a href="#contact" class="msc-form">
+    ✉ Napisz
+  </a>
+</div>
 
 <!-- FOOTER -->
 <footer>
