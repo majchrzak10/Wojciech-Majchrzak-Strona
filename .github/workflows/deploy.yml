@@ -1,0 +1,50 @@
+# =============================================================================
+# CyberFolks deploy: vanilla HTML → FTPS → public_html dla wmajchrzak.pl
+#
+# --- Wymagane sekrety (Settings → Secrets and variables → Actions → Secrets) ---
+#   FTP_SERVER       — np. s71.cyber-folks.pl
+#   FTP_USERNAME     — login FTP z panelu Cyberfolks
+#   FTP_PASSWORD     — hasło FTP
+#
+# --- Opcjonalne zmienne (Variables) ---
+#   FTP_SERVER_DIR   — domyślnie domains/wmajchrzak.pl/public_html
+#                      (Cyberfolks struktura dla addon domain)
+#                      Jeśli wmajchrzak.pl jest main domain → ustaw na public_html
+# =============================================================================
+
+name: Deploy → CyberFolks (wmajchrzak.pl)
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-wmajchrzak
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ${{ vars.FTP_SERVER_DIR || '/domains/wmajchrzak.pl/public_html/' }}
+          protocol: ftps
+          port: 21
+          timeout: 120000
+          security: loose
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.github/**
+            **/README.md
+            **/*.md
