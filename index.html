@@ -256,6 +256,23 @@
     transition: background .2s, transform .2s;
   }
   .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .nav-burger {
+    display: none;
+    width: 40px; height: 40px; padding: 0; flex-shrink: 0;
+    background: transparent; border: 1px solid rgba(46,125,125,.35);
+    border-radius: 5px; cursor: pointer;
+    flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  }
+  .nav-burger span {
+    display: block; width: 17px; height: 1.6px;
+    background: var(--cream); border-radius: 2px;
+    transition: transform .25s, opacity .2s, width .2s;
+  }
+  .nav-burger span:nth-child(2) { width: 12px; background: var(--gold); }
+  nav.menu-open .nav-burger span:nth-child(1) { transform: translateY(5.6px) rotate(45deg); }
+  nav.menu-open .nav-burger span:nth-child(2) { opacity: 0; }
+  nav.menu-open .nav-burger span:nth-child(3) { transform: translateY(-5.6px) rotate(-45deg); }
+  .nav-menu { display: contents; }
 
   /* ─── HERO ────────────────────────────────────── */
   #hero {
@@ -1205,11 +1222,31 @@
     #price { grid-template-columns: 1fr; gap: 3rem; }
   }
   @media (max-width: 768px) {
-    /* Nav */
+    /* Nav — wariant A: logo + hamburger, menu rozwijane */
     nav { padding: 0 1.2rem; height: 60px; }
-    .nav-links { display: none; }
-    .nav-logo { font-size: .58rem; letter-spacing: .1em; }
-    .nav-cta { font-size: .65rem; padding: .5rem 1rem; }
+    .nav-logo { font-size: .64rem; letter-spacing: .08em; }
+    .nav-logo-sub { display: none; }
+    .nav-burger { display: flex; }
+    .nav-menu {
+      display: none;
+      position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column;
+      background: rgba(15,15,19,.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(46,125,125,.18);
+      padding: .4rem 1.2rem 1.3rem;
+    }
+    nav.menu-open .nav-menu { display: flex; }
+    .nav-links { display: flex; flex-direction: column; gap: 0; }
+    .nav-links a {
+      display: block; padding: .9rem 0; font-size: .8rem;
+      color: rgba(255,255,255,.72);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .nav-links li:last-child a { border-bottom: none; }
+    .nav-cta {
+      margin-top: 1rem; text-align: center;
+      font-size: .72rem; padding: .95rem 1rem;
+    }
 
     /* Hero — photo becomes background, text full width */
     .hero-photo-panel {
@@ -1329,15 +1366,20 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">Wojciech Majchrzak&nbsp;·&nbsp;Ekspert Kredytowy</a>
-  <ul class="nav-links">
-    <li><a href="#about">O mnie</a></li>
-    <li><a href="#services">Usługi</a></li>
-    <li><a href="#process">Proces</a></li>
-    <li><a href="#reviews">Opinie</a></li>
-    <li><a href="#collab">Współpraca</a></li>
-  </ul>
-  <a class="nav-cta" href="#contact">Umów spotkanie</a>
+  <a class="nav-logo" href="#"><span class="nav-logo-name">Wojciech Majchrzak</span><span class="nav-logo-sub">&nbsp;·&nbsp;Ekspert Kredytowy</span></a>
+  <button class="nav-burger" type="button" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-menu">
+    <ul class="nav-links">
+      <li><a href="#about">O mnie</a></li>
+      <li><a href="#services">Usługi</a></li>
+      <li><a href="#process">Proces</a></li>
+      <li><a href="#reviews">Opinie</a></li>
+      <li><a href="#collab">Współpraca</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Umów spotkanie</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1937,6 +1979,23 @@
   window.addEventListener('scroll', () => {
     document.querySelector('nav').style.height = window.scrollY > 80 ? '60px' : '72px';
   });
+
+  // Mobilne menu — hamburger toggle (wariant A)
+  (function () {
+    const navEl = document.querySelector('nav');
+    const burger = navEl.querySelector('.nav-burger');
+    if (!burger) return;
+    burger.addEventListener('click', () => {
+      const open = navEl.classList.toggle('menu-open');
+      burger.setAttribute('aria-expanded', open);
+    });
+    navEl.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navEl.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
 
   // Copyright year — auto-update
   document.querySelector('.footer-copy').innerHTML =
