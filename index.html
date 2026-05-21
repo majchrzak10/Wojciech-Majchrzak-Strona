@@ -4,12 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) + Consent Mode v2 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WDH4TLEL2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
+
+  // Consent Mode v2 — domyślnie brak zgody do czasu decyzji użytkownika
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied'
+  });
+  // Przywróć zgodę, jeśli użytkownik zaakceptował wcześniej
+  if (localStorage.getItem('cookie-consent') === 'accepted') {
+    gtag('consent', 'update', { 'analytics_storage': 'granted' });
+  }
+
   gtag('config', 'G-9WDH4TLEL2');
 </script>
 
@@ -1462,6 +1475,42 @@
       padding-bottom: 70px;
     }
   }
+
+  /* ─── COOKIE CONSENT ─── */
+  .cookie-banner {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 9000;
+    display: none;
+    align-items: center; justify-content: space-between;
+    gap: 1rem 1.6rem; flex-wrap: wrap;
+    padding: 1.1rem 5vw;
+    background: var(--black);
+    border-top: 1px solid rgba(46,125,125,.28);
+    box-shadow: 0 -8px 30px rgba(0,0,0,.35);
+  }
+  .cookie-banner.show { display: flex; }
+  .cookie-text {
+    font-size: .8rem; font-weight: 300; line-height: 1.65;
+    color: rgba(245,251,251,.78); max-width: 760px;
+  }
+  .cookie-text a { color: var(--gold-lt); text-decoration: underline; }
+  .cookie-actions { display: flex; gap: .7rem; flex-shrink: 0; }
+  .cookie-btn {
+    font-family: var(--font); font-size: .68rem; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase;
+    padding: .72rem 1.5rem; border-radius: 2px; cursor: pointer;
+    border: none; transition: background .2s, transform .15s, color .2s, border-color .2s;
+  }
+  .cookie-accept { background: var(--gold); color: var(--black); }
+  .cookie-accept:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .cookie-reject {
+    background: transparent; color: rgba(245,251,251,.65);
+    border: 1px solid rgba(245,251,251,.25);
+  }
+  .cookie-reject:hover { color: var(--cream); border-color: rgba(245,251,251,.5); }
+  @media (max-width: 600px) {
+    .cookie-actions { width: 100%; }
+    .cookie-btn { flex: 1; }
+  }
 </style>
 </head>
 <body>
@@ -2066,6 +2115,17 @@
   </div>
 </div>
 
+<!-- COOKIE CONSENT -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Zgoda na pliki cookie">
+  <p class="cookie-text">
+    Ta strona używa plików cookie do celów analitycznych (Google Analytics), aby lepiej rozumieć, jak korzystasz z witryny. Analityka uruchamia się wyłącznie za Twoją zgodą. Szczegóły w <a href="#" onclick="document.getElementById('privacy-modal').style.display='flex';return false;">polityce prywatności</a>.
+  </p>
+  <div class="cookie-actions">
+    <button type="button" class="cookie-btn cookie-reject" onclick="cookieConsent(false)">Odrzucam</button>
+    <button type="button" class="cookie-btn cookie-accept" onclick="cookieConsent(true)">Akceptuję</button>
+  </div>
+</div>
+
 <script>
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
@@ -2103,6 +2163,16 @@
   // Copyright year — auto-update
   document.querySelector('.footer-copy').innerHTML =
     document.querySelector('.footer-copy').innerHTML.replace('© 2026', '© ' + new Date().getFullYear());
+
+  // ─── COOKIE CONSENT ──────────────────────────────────────────────
+  function cookieConsent(accepted) {
+    localStorage.setItem('cookie-consent', accepted ? 'accepted' : 'rejected');
+    if (accepted) gtag('consent', 'update', { 'analytics_storage': 'granted' });
+    document.getElementById('cookie-banner').classList.remove('show');
+  }
+  if (!localStorage.getItem('cookie-consent')) {
+    document.getElementById('cookie-banner').classList.add('show');
+  }
 
   // ─── FAQ ACCORDION ───────────────────────────────────────────────
   function toggleFaq(btn) {
