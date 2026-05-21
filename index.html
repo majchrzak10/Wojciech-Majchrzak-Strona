@@ -96,6 +96,10 @@
         "Kredyt budowlany",
         "Kredyt na dokończenie budowy"
       ],
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61551898115870",
+        "https://share.google/frWujkByycWBHTJMY"
+      ],
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5.0",
@@ -132,6 +136,7 @@
         "@id": "https://www.wmajchrzak.pl/#person",
         "name": "Wojciech Majchrzak",
         "jobTitle": "Ekspert Kredytowy",
+        "sameAs": ["https://www.facebook.com/profile.php?id=61551898115870"],
         "worksFor": {"@id": "https://www.wmajchrzak.pl/#business"},
         "knowsAbout": ["kredyty hipoteczne", "ubezpieczenia majątkowe", "ubezpieczenia życiowe", "zdolność kredytowa"],
         "hasOccupation": {
@@ -143,6 +148,7 @@
     },
     {
       "@type": "FAQPage",
+      "@id": "https://www.wmajchrzak.pl/#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -192,6 +198,84 @@
             "text": "Doradca bankowy pracuje dla jednego banku. Ekspert kredytowy jest niezależny — porównuje oferty wielu banków i działa w interesie klienta. Wynagrodzenie otrzymuje od banku po uruchomieniu kredytu, więc dla Ciebie pomoc jest całkowicie bezpłatna."
           }
         }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.wmajchrzak.pl/#website",
+      "url": "https://www.wmajchrzak.pl/",
+      "name": "Wojciech Majchrzak — Ekspert Kredytowy Wągrowiec",
+      "inLanguage": "pl-PL",
+      "publisher": {"@id": "https://www.wmajchrzak.pl/#business"}
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.wmajchrzak.pl/#webpage",
+      "url": "https://www.wmajchrzak.pl/",
+      "name": "Wojciech Majchrzak — Ekspert Kredytowy Wągrowiec | Kredyt Hipoteczny",
+      "description": "Wojciech Majchrzak — niezależny ekspert kredytowy z Wągrowca. 21 lat doświadczenia, 202 opinii Google ★5.0. Bezpłatna konsultacja kredytów hipotecznych.",
+      "inLanguage": "pl-PL",
+      "isPartOf": {"@id": "https://www.wmajchrzak.pl/#website"},
+      "about": {"@id": "https://www.wmajchrzak.pl/#business"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://www.wmajchrzak.pl/og-image.jpg"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.wmajchrzak.pl/#service-mieszkanie",
+      "name": "Kredyt hipoteczny na zakup mieszkania",
+      "description": "Doradztwo i pełna obsługa kredytu hipotecznego na zakup mieszkania na rynku pierwotnym i wtórnym — od bezpłatnej analizy zdolności kredytowej, przez porównanie ofert banków, po uruchomienie środków.",
+      "serviceType": "Kredyt hipoteczny",
+      "provider": {"@id": "https://www.wmajchrzak.pl/#business"},
+      "areaServed": [
+        {"@type": "City", "name": "Wągrowiec"},
+        {"@type": "City", "name": "Skoki"},
+        {"@type": "City", "name": "Rogoźno"},
+        {"@type": "AdministrativeArea", "name": "powiat wągrowiecki"}
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.wmajchrzak.pl/#service-dom",
+      "name": "Kredyt hipoteczny na zakup domu",
+      "description": "Kredyt hipoteczny na zakup domu — z pełną analizą ofert banków, doradztwem przy wkładzie własnym i obsługą przez cały proces kredytowy.",
+      "serviceType": "Kredyt hipoteczny",
+      "provider": {"@id": "https://www.wmajchrzak.pl/#business"},
+      "areaServed": [
+        {"@type": "City", "name": "Wągrowiec"},
+        {"@type": "City", "name": "Skoki"},
+        {"@type": "City", "name": "Rogoźno"},
+        {"@type": "AdministrativeArea", "name": "powiat wągrowiecki"}
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.wmajchrzak.pl/#service-budowa",
+      "name": "Kredyt budowlany na budowę domu",
+      "description": "Finansowanie budowy domu od podstaw — transzowy kredyt budowlano-hipoteczny z pełnym wsparciem w kompletowaniu dokumentacji i kosztorysu.",
+      "serviceType": "Kredyt budowlany",
+      "provider": {"@id": "https://www.wmajchrzak.pl/#business"},
+      "areaServed": [
+        {"@type": "City", "name": "Wągrowiec"},
+        {"@type": "City", "name": "Skoki"},
+        {"@type": "City", "name": "Rogoźno"},
+        {"@type": "AdministrativeArea", "name": "powiat wągrowiecki"}
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.wmajchrzak.pl/#service-dokonczenie",
+      "name": "Kredyt na dokończenie budowy",
+      "description": "Kredyt na dokończenie już rozpoczętej budowy domu — również w trudniejszych sytuacjach formalnych, które inne banki odrzuciły.",
+      "serviceType": "Kredyt budowlany",
+      "provider": {"@id": "https://www.wmajchrzak.pl/#business"},
+      "areaServed": [
+        {"@type": "City", "name": "Wągrowiec"},
+        {"@type": "City", "name": "Skoki"},
+        {"@type": "City", "name": "Rogoźno"},
+        {"@type": "AdministrativeArea", "name": "powiat wągrowiecki"}
       ]
     }
   ]
@@ -1397,7 +1481,7 @@
   <div class="hero-grid"></div>
   <!-- Zdjęcie po prawej -->
   <div class="hero-photo-panel">
-    <img src="wojciech-majchrzak-ekspert-kredytowy.jpg" alt="Wojciech Majchrzak — niezależny ekspert kredytowy z Wągrowca" fetchpriority="high" style="object-position: center top;">
+    <img src="wojciech-majchrzak-ekspert-kredytowy.jpg" alt="Wojciech Majchrzak — niezależny ekspert kredytowy z Wągrowca" width="900" height="1125" fetchpriority="high" style="object-position: center top;">
   </div>
   <div class="hero-photo-border"></div>
   <div class="hero-content">
@@ -1828,7 +1912,7 @@
 <!-- BIURO -->
 <section id="biuro">
   <div class="biuro-photo">
-    <img src="budynek.jpg" alt="Biuro eksperta kredytowego Wojciecha Majchrzaka — ul. Kościuszki 28, Wągrowiec" loading="lazy">
+    <img src="budynek.webp" alt="Biuro eksperta kredytowego Wojciecha Majchrzaka — ul. Kościuszki 28, Wągrowiec" width="1400" height="863" loading="lazy">
   </div>
   <div class="biuro-info reveal">
     <p class="biuro-eyebrow">Moje biuro</p>

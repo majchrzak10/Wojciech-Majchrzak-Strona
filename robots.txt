@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /privacy-modal/
 
 Sitemap: https://www.wmajchrzak.pl/sitemap.xml
