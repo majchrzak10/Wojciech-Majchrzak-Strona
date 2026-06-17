@@ -29,6 +29,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Inject Google Maps API key (z Secret, do __GOOGLE_MAPS_KEY__)
+        env:
+          GMAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+        run: sed -i "s|__GOOGLE_MAPS_KEY__|${GMAPS_KEY}|g" index.html
+
       - name: Deploy via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

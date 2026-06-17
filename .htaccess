@@ -12,6 +12,13 @@
   RewriteCond %{HTTP_HOST} !^www\.wmajchrzak\.pl$ [NC]
   RewriteRule ^ https://www.wmajchrzak.pl%{REQUEST_URI} [R=301,L]
 
+  # 2) 301 usuniętych podstron (po przejściu na onepage) → właściwe sekcje strony
+  RewriteRule ^o-mnie/?$       /#about    [R=301,L]
+  RewriteRule ^kontakt/?$      /#contact  [R=301,L]
+  RewriteRule ^rekomendacje/?$ /#reviews  [R=301,L]
+  RewriteRule ^wspolpraca/?$   /#collab   [R=301,L]
+  RewriteRule ^czy-warto-korzystac-z-uslug-doradcy-kredytowego-dlaczego-nie-pojsc-bezposrednio-do-banku/?$  /  [R=301,L]
+
   # 3) Block legacy WordPress paths (404 instead of serving wp-admin, wp-login, etc.)
   RewriteRule ^wp-admin/?.*$ - [R=404,L]
   RewriteRule ^wp-login\.php$ - [R=404,L]
