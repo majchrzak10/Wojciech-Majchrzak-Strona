@@ -1,0 +1,164 @@
+# =============================================================================
+# Mirror serwer → repo (odwrotność deploy.yml)
+#
+# Agencja SEO pracuje bezpośrednio na FTP. Ten workflow co 6h ściąga stan
+# serwera i commituje go do repo, żeby historia zmian nie ginęła, a ręczny
+# deploy nigdy nie miał czego nadpisać.
+#
+# BEZPIECZEŃSTWO: plik na serwerze zawiera PRAWDZIWY klucz Google Maps
+# (wstrzykiwany przy deployu). Repo jest publiczne, więc klucz jest zdejmowany
+# z powrotem do placeholdera __GOOGLE_MAPS_KEY__ przed commitem, a job pada,
+# jeśli po sanityzacji klucz nadal gdziekolwiek występuje.
+#
+# Zakres: index.html, .htaccess, sitemap.xml, robots.txt, katalog /blog/.
+# Inne pliki dorzucone przez agencję na serwer NIE trafią do repo (świadome
+# zawężenie — pozostałości WordPressa na serwerze mają zostać poza repo).
+#
+# Sekrety: te same co w deploy.yml (FTP_SERVER/USERNAME/PASSWORD, GOOGLE_MAPS_KEY)
+# =============================================================================
+
+name: Mirror serwer → repo (wmajchrzak.pl)
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror-wmajchrzak
+  cancel-in-progress: false
+
+env:
+  # `ftp:list-options -a` jest konieczne — bez tego LIST na hostingu pomija
+  # pliki z kropką i .htaccess nigdy by się nie pobrał (po cichu, bez błędu).
+  LFTP_SETTINGS: |
+    set cmd:fail-exit true
+    set ftp:ssl-force true
+    set ftp:ssl-protect-data true
+    set ftp:list-options -a
+    set ssl:verify-certificate no
+    set net:timeout 30
+    set net:max-retries 3
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      SERVER_DIR: ${{ vars.FTP_SERVER_DIR || '/domains/wmajchrzak.pl/public_html/' }}
+      GMAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Sprawdź, czy sekret z kluczem Maps istnieje
+        run: |
+          if [ -z "$GMAPS_KEY" ]; then
+            echo "::error::Brak sekretu GOOGLE_MAPS_KEY. Bez niego nie da się zdjąć klucza z pobranego pliku — przerywam, żeby nie wypchnąć go do publicznego repo."
+            exit 1
+          fi
+
+      - name: Instalacja lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Pobierz pliki tekstowe z serwera
+        run: |
+          mkdir -p server-state
+          lftp <<LFTP
+          $LFTP_SETTINGS
+          open -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_SERVER"
+          cd "$SERVER_DIR"
+          mirror --no-recursion --no-perms -I index.html -I .htaccess -I sitemap.xml -I robots.txt . server-state
+          bye
+          LFTP
+          echo "Pobrano:"; ls -la server-state
+
+      - name: Pobierz katalog /blog (jeśli agencja go założyła)
+        run: |
+          set +e
+          lftp <<LFTP
+          $LFTP_SETTINGS
+          open -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_SERVER"
+          cd "$SERVER_DIR"
+          mirror --no-perms blog server-state/blog
+          bye
+          LFTP
+          RC=$?
+          set -e
+          if [ "$RC" -ne 0 ]; then
+            # Brak katalogu albo urwany transfer — jedno i drugie traktujemy tak samo:
+            # kasujemy częściowy pobór, żeby krok commitujący nie podmienił repo ochłapami.
+            rm -rf server-state/blog
+            echo "::notice::Nie pobrano /blog (kod $RC) — katalog blog/ w repo zostaje nietknięty."
+          fi
+
+      - name: Sanityzacja klucza API + kontrola sensowności pobranych plików
+        run: |
+          F=server-state/index.html
+          if [ ! -f "$F" ]; then
+            echo "::error::Nie pobrano index.html z serwera."
+            exit 1
+          fi
+          SIZE=$(stat -c%s "$F")
+          if [ "$SIZE" -lt 50000 ]; then
+            echo "::error::index.html ma tylko ${SIZE} B (norma ~97 kB). Serwer prawdopodobnie w awarii — nie nadpisuję repo."
+            exit 1
+          fi
+          if grep -q 'wp-content' "$F"; then
+            echo "::error::Pobrany index.html zawiera WordPressa — to scenariusz awarii z 2026-07-20. Nie commituję."
+            exit 1
+          fi
+
+          # Pozostałe pliki: pusty albo skurczony o połowę = urwany transfer, nie edycja agencji.
+          for f in .htaccess sitemap.xml robots.txt; do
+            S="server-state/$f"
+            [ -f "$S" ] || continue
+            NEW=$(stat -c%s "$S")
+            if [ "$NEW" -eq 0 ]; then
+              echo "::error::$f pobrany jako pusty — urwany transfer. Nie commituję."
+              exit 1
+            fi
+            if [ -f "$f" ]; then
+              OLD=$(stat -c%s "$f")
+              if [ "$NEW" -lt $((OLD / 2)) ]; then
+                echo "::error::$f skurczył się z ${OLD} do ${NEW} B — wygląda na obcięty transfer. Nie commituję."
+                exit 1
+              fi
+            fi
+          done
+
+          # Literalna podmiana klucza (perl \Q..\E), żeby ewentualne znaki specjalne
+          # w kluczu nie były interpretowane jako regex.
+          perl -pi -e 's/\Q$ENV{GMAPS_KEY}\E/__GOOGLE_MAPS_KEY__/g' "$F"
+          if grep -rqF "$GMAPS_KEY" server-state; then
+            echo "::error::Klucz API nadal obecny w pobranych plikach po sanityzacji — przerywam."
+            exit 1
+          fi
+
+      - name: Commituj, jeśli serwer się zmienił
+        run: |
+          cp server-state/index.html index.html
+          for f in .htaccess sitemap.xml robots.txt; do
+            if [ -f "server-state/$f" ]; then cp "server-state/$f" "$f"; fi
+          done
+          if [ -d server-state/blog ]; then
+            rm -rf blog
+            cp -r server-state/blog blog
+          fi
+          rm -rf server-state
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Brak zmian na serwerze."
+            exit 0
+          fi
+          git commit -m "Mirror: zmiany wprowadzone bezpośrednio na serwerze (FTP)"
+          git pull --rebase
+          git push

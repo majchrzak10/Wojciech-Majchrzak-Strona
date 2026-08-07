@@ -14,9 +14,11 @@
 
 name: Deploy → CyberFolks (wmajchrzak.pl)
 
+# UWAGA: deploy jest WYŁĄCZNIE ręczny (Actions → Run workflow albo `gh workflow run`).
+# Trigger na push został zdjęty, bo na serwerze pracuje też agencja SEO — automatyczne
+# wdrożenie kasowałoby ich pracę. Kolejność przy własnych zmianach:
+#   1. odpal „Mirror serwer → repo", 2. `git pull`, 3. edytuj, 4. push, 5. odpal ten deploy.
 on:
-  push:
-    branches: [main, master]
   workflow_dispatch:
 
 concurrency:
