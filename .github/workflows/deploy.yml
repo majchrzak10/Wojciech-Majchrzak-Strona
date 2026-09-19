@@ -20,6 +20,8 @@ name: Deploy → CyberFolks (wmajchrzak.pl)
 #   1. odpal „Mirror serwer → repo", 2. `git pull`, 3. edytuj, 4. push, 5. odpal ten deploy.
 on:
   workflow_dispatch:
+  push:
+    branches: [master]
 
 concurrency:
   group: deploy-wmajchrzak
