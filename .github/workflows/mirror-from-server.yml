@@ -86,6 +86,13 @@ jobs:
             . server-state
           bye
           LFTP
+
+          # Na tym hostingu index.html nie pojawia się w listingu FTP (serwer nadal go poprawnie serwuje).
+          # Pobierz publiczną wersję, aby mirror nie kończył się błędem i nie usuwał pliku z repo.
+          if [ ! -f server-state/index.html ]; then
+            curl --fail --location --silent --show-error https://www.wmajchrzak.pl/ -o server-state/index.html
+          fi
+
           echo "Pobrano $(find server-state -type f | wc -l) plików, łącznie $(du -sh server-state | cut -f1):"
           find server-state -type f | sort
 
